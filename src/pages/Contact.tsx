@@ -32,13 +32,13 @@ export default function Contact() {
               <h3 className="font-bold text-xl text-gray-900 mb-1">Phone</h3>
               <p className="text-gray-600 text-sm mb-4">Call us directly</p>
 
-              <div className="flex-grow flex items-center justify-center mb-6">
-                <p className="text-xl font-semibold text-green-700">{CONTACT_INFO.phone}</p>
+              <div className="flex-grow flex items-center justify-center w-full mb-6">
+                <p className="text-xl font-semibold text-blue-600">{CONTACT_INFO.phone}</p>
               </div>
 
               <button
                 onClick={handlePhone}
-                className="w-full mt-auto bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-all duration-300 font-semibold transform hover:scale-105"
+                className="w-full mt-auto bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-all duration-300 font-semibold transform hover:-translate-y-1 hover:shadow-md"
               >
                 Call Now
               </button>
@@ -53,13 +53,13 @@ export default function Contact() {
               <h3 className="font-bold text-xl text-gray-900 mb-1">WhatsApp</h3>
               <p className="text-gray-600 text-sm mb-4">Chat with us</p>
 
-              <div className="flex-grow flex items-center justify-center mb-6">
-                <p className="text-xl font-semibold text-green-600">{CONTACT_INFO.phone}</p>
+              <div className="flex-grow flex items-center justify-center w-full mb-6">
+                <p className="text-xl font-semibold text-[#25D366]">{CONTACT_INFO.phone}</p>
               </div>
 
               <button
                 onClick={handleWhatsApp}
-                className="w-full mt-auto bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-all duration-300 font-semibold transform hover:scale-105"
+                className="w-full mt-auto bg-[#25D366] text-white py-3 rounded-xl hover:bg-[#128C7E] transition-all duration-300 font-semibold transform hover:-translate-y-1 hover:shadow-md"
               >
                 WhatsApp Now
               </button>
@@ -75,13 +75,13 @@ export default function Contact() {
               <h3 className="font-bold text-xl text-gray-900 mb-1">Email</h3>
               <p className="text-gray-600 text-sm mb-4">Send us a message</p>
 
-              <div className="flex-grow flex items-center justify-center mb-6">
-                <p className="text-xl font-semibold text-slate-700">{CONTACT_INFO.email}</p>
+              <div className="flex-grow flex items-center justify-center w-full px-2 mb-6">
+                <p className="text-[17px] font-semibold text-slate-700 text-center break-words w-full">{CONTACT_INFO.email}</p>
               </div>
 
               <button
                 onClick={handleEmail}
-                className="w-full mt-auto bg-slate-700 text-white py-3 rounded-lg hover:bg-slate-800 transition-all duration-300 font-semibold transform hover:scale-105"
+                className="w-full mt-auto bg-slate-800 text-white py-3 rounded-xl hover:bg-slate-900 transition-all duration-300 font-semibold transform hover:-translate-y-1 hover:shadow-md"
               >
                 Send Email
               </button>

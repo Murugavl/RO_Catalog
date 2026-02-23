@@ -14,9 +14,12 @@ export default function Home() {
           </p>
           <Link
             to="/models"
-            className="inline-block bg-white text-blue-700 px-10 py-4 rounded-full font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-lg"
+            className="inline-flex items-center justify-center bg-white text-blue-700 px-10 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 transform hover:-translate-y-1 text-lg group bg-gradient-to-r hover:from-white hover:to-blue-50"
           >
             Explore Our Models
+            <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
           </Link>
         </div>
       </section>
@@ -64,22 +67,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-16 relative overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-6">Ready to Get Started?</h2>
-          <p className="text-xl text-slate-300 mb-10 font-light max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4">Need Help Choosing the Right RO System?</h2>
+          <p className="text-lg text-slate-300 mb-8 font-light max-w-2xl mx-auto">
             Browse our complete range of water purifiers and find the perfect solution for your family's needs.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link
               to="/models"
-              className="bg-blue-500 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-600 transition-colors shadow-lg hover:shadow-blue-500/30"
+              className="bg-blue-500 text-white px-8 py-3.5 rounded-full font-bold hover:bg-blue-600 transition-colors shadow-lg hover:shadow-blue-500/30"
             >
               View All Models
             </Link>
             <Link
               to="/contact"
-              className="bg-transparent text-white border-2 border-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-slate-900 transition-all shadow-lg"
+              className="bg-transparent text-white border-2 border-white px-8 py-3.5 rounded-full font-bold hover:bg-white hover:text-slate-900 transition-all shadow-lg"
             >
               Contact Us
             </Link>

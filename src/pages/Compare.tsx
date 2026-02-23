@@ -74,7 +74,15 @@ export default function Compare() {
 
         {selectedProducts.length === 0 ? (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">Select Products to Compare</h2>
+            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-8 mb-10 flex flex-col items-center text-center max-w-3xl mx-auto shadow-sm">
+              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm text-blue-500">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+              </div>
+              <h2 className="text-2xl font-bold text-slate-800 mb-2">Build Your Comparison</h2>
+              <p className="text-slate-600 text-lg">Select up to 3 models from the list below to compare features side by side.</p>
+            </div>
+
+            <h2 className="text-2xl font-bold mb-6 text-slate-800">Available Products</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {products.map((product) => (
                 <button
@@ -216,13 +224,13 @@ export default function Compare() {
                           </Link>
                           <button
                             onClick={() => handleWhatsApp(product.model_name)}
-                            className="text-center bg-green-500 text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-green-600 transition-colors"
+                            className="text-center bg-[#25D366] text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-[#128C7E] transition-colors"
                           >
                             WhatsApp
                           </button>
                           <button
                             onClick={handlePhone}
-                            className="text-center bg-green-700 text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-green-800 transition-colors"
+                            className="text-center bg-blue-600 text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-blue-700 transition-colors"
                           >
                             Call
                           </button>

@@ -1,37 +1,40 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Header() {
+  const getNavClass = ({ isActive }: { isActive: boolean }) =>
+    `transition-all duration-300 font-medium pb-1 border-b-2 ${isActive
+      ? 'text-blue-600 border-blue-600'
+      : 'text-slate-600 border-transparent hover:text-blue-500 hover:border-blue-300'
+    }`;
+
   return (
-    <header className="sticky top-0 z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-100 shadow-sm">
-      <div className="container mx-auto px-4 py-3">
+    <header className="sticky top-0 z-50 transition-all duration-300 backdrop-blur-md bg-white/90 border-b border-gray-100 shadow-sm hover:shadow-md">
+      <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition group">
-            <img src="/ponsri-logo.png" alt="Ponsri Enterprises" className="h-10 w-auto transform group-hover:scale-105 transition-transform duration-300" />
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-500">Ponsri</span>
-            </div>
+          <Link to="/" className="flex items-center hover:opacity-90 transition group">
+            <img src="/ponsri-logo.png" alt="Ponsri Enterprises" className="h-[42px] w-auto transform group-hover:scale-105 transition-transform duration-300" />
           </Link>
           <nav>
-            <ul className="flex space-x-6">
+            <ul className="flex items-center gap-7">
               <li>
-                <Link to="/" className="text-gray-700 hover:text-blue-600 transition">
+                <NavLink to="/" className={getNavClass} end>
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="/models" className="text-gray-700 hover:text-blue-600 transition">
+                <NavLink to="/models" className={getNavClass}>
                   Models
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="/compare" className="text-gray-700 hover:text-blue-600 transition">
+                <NavLink to="/compare" className={getNavClass}>
                   Compare
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition">
+                <NavLink to="/contact" className={getNavClass}>
                   Contact
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </nav>
