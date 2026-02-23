@@ -16,26 +16,7 @@ export default function Home() {
             Explore Our Models
           </Link>
 
-          <div className="mt-12 flex flex-col md:flex-row justify-center gap-8 text-sm">
-            <div className="flex items-center justify-center space-x-2">
-              <svg className="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span>Free Installation</span>
-            </div>
-            <div className="flex items-center justify-center space-x-2">
-              <svg className="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span>1–3 Years Warranty</span>
-            </div>
-            <div className="flex items-center justify-center space-x-2">
-              <svg className="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span>24/7 Support</span>
-            </div>
-          </div>
+
         </div>
       </section>
 
@@ -58,12 +39,12 @@ export default function Home() {
             <div className="text-center p-6">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-2">Trusted Quality</h3>
+              <h3 className="text-xl font-bold mb-2">Health & Safety First</h3>
               <p className="text-gray-600">
-                ISO certified products with comprehensive warranty coverage for peace of mind.
+                Removes up to 99.9% of harmful contaminants, ensuring every drop is safe for your family.
               </p>
             </div>
 

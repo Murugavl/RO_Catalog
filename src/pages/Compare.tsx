@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import { CONTACT_INFO } from '../components/ContactButtons';
+import { mockProducts } from '../data/mockProducts';
 
 export default function Compare() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -22,7 +23,7 @@ export default function Compare() {
         .order('model_name');
 
       if (error) throw error;
-      setProducts(data || []);
+      setProducts(data && data.length > 0 ? data : mockProducts);
     } catch (error) {
       console.error('Error loading products:', error);
     } finally {
@@ -79,11 +80,10 @@ export default function Compare() {
                 <button
                   key={product.id}
                   onClick={() => handleSelectProduct(product)}
-                  className={`p-4 border-2 rounded-xl text-left transition-all duration-300 ${
-                    isSelected(product.id)
+                  className={`p-4 border-2 rounded-xl text-left transition-all duration-300 ${isSelected(product.id)
                       ? 'border-green-600 bg-green-50 shadow-md'
                       : 'border-gray-300 hover:border-green-400 hover:shadow-sm'
-                  }`}
+                    }`}
                 >
                   <div className="font-semibold mb-2 text-gray-900">{product.model_name}</div>
                   <div className="text-sm text-gray-600">₹{product.price.toLocaleString()}</div>
@@ -113,13 +113,12 @@ export default function Compare() {
                     key={product.id}
                     onClick={() => handleSelectProduct(product)}
                     disabled={!isSelected(product.id) && selectedProducts.length >= 3}
-                    className={`px-4 py-2 rounded-lg transition-all duration-300 font-semibold ${
-                      isSelected(product.id)
+                    className={`px-4 py-2 rounded-lg transition-all duration-300 font-semibold ${isSelected(product.id)
                         ? 'bg-green-600 text-white shadow-md'
                         : selectedProducts.length >= 3
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      }`}
                   >
                     {product.model_name}
                   </button>

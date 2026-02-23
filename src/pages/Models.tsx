@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import { CONTACT_INFO } from '../components/ContactButtons';
+import { mockProducts } from '../data/mockProducts';
 
 export default function Models() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -21,7 +22,7 @@ export default function Models() {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setProducts(data || []);
+      setProducts(data && data.length > 0 ? data : mockProducts);
     } catch (error) {
       console.error('Error loading products:', error);
     } finally {

@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import { CONTACT_INFO } from '../components/ContactButtons';
+import { mockProducts } from '../data/mockProducts';
 
 export default function ModelDetail() {
   const { id } = useParams<{ id: string }>();
@@ -26,9 +27,10 @@ export default function ModelDetail() {
         .maybeSingle();
 
       if (error) throw error;
-      setProduct(data);
-      if (data?.image_url) {
-        setSelectedImage(data.image_url);
+      const productData = data || mockProducts.find(p => p.id === id);
+      setProduct(productData || null);
+      if (productData?.image_url) {
+        setSelectedImage(productData.image_url);
       }
     } catch (error) {
       console.error('Error loading product:', error);
@@ -104,9 +106,8 @@ export default function ModelDetail() {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(img)}
-                    className={`border-2 rounded overflow-hidden ${
-                      selectedImage === img ? 'border-blue-600' : 'border-gray-300'
-                    }`}
+                    className={`border-2 rounded overflow-hidden ${selectedImage === img ? 'border-blue-600' : 'border-gray-300'
+                      }`}
                   >
                     <img src={img} alt={`View ${index + 1}`} className="w-full h-20 object-cover" />
                   </button>
