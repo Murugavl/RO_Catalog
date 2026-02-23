@@ -3,12 +3,12 @@ import { Link, NavLink } from 'react-router-dom';
 export default function Header() {
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
     `transition-all duration-300 font-medium pb-1 border-b-2 ${isActive
-      ? 'text-blue-600 border-blue-600'
-      : 'text-slate-600 border-transparent hover:text-blue-500 hover:border-blue-300'
+      ? 'text-[#128C7E] border-[#128C7E]'
+      : 'text-slate-600 border-transparent hover:text-[#128C7E] hover:border-[#128C7E]'
     }`;
 
   return (
-    <header className="sticky top-0 z-50 transition-all duration-300 backdrop-blur-md bg-white/90 border-b border-gray-100 shadow-sm hover:shadow-md">
+    <header className="sticky top-0 z-50 transition-all duration-300 bg-white border-b-2 border-[#128C7E] shadow-sm hover:shadow-md">
       <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center hover:opacity-90 transition group">

@@ -18,10 +18,10 @@ export default function ContactButtons() {
   };
 
   return (
-    <div className="fixed right-4 bottom-4 flex flex-col space-y-2 z-40">
+    <div className="fixed right-4 bottom-4 flex flex-col space-y-3 z-40">
       <button
         onClick={handlePhone}
-        className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-110"
+        className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
         title="Call Us"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -31,7 +31,7 @@ export default function ContactButtons() {
 
       <button
         onClick={handleWhatsApp}
-        className="bg-[#25D366] hover:bg-[#128C7E] text-white p-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-110"
+        className="bg-[#25D366] hover:bg-[#128C7E] text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
         title="WhatsApp Us"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -41,7 +41,7 @@ export default function ContactButtons() {
 
       <button
         onClick={handleEmail}
-        className="bg-slate-800 hover:bg-slate-900 text-white p-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-110"
+        className="bg-slate-800 hover:bg-slate-900 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
         title="Email Us"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
