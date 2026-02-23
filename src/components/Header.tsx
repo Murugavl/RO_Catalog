@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="sticky top-0 z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-gray-100 shadow-sm">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition">
-            <img src="/ponsri-logo.png" alt="Ponsri Enterprises" className="h-12 w-auto" />
+          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition group">
+            <img src="/ponsri-logo.png" alt="Ponsri Enterprises" className="h-10 w-auto transform group-hover:scale-105 transition-transform duration-300" />
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-green-700">Ponsri Enterprises</span>
+              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-500">Ponsri</span>
             </div>
           </Link>
           <nav>

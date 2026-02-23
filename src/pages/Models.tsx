@@ -54,9 +54,9 @@ export default function Models() {
   return (
     <div className="min-h-screen py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-4">Our RO Purifier Models</h1>
-        <p className="text-center text-gray-600 mb-12">
-          Explore our range of water purification systems
+        <h1 className="text-5xl font-bold text-center mb-6 text-slate-800">Our Premium Collection</h1>
+        <p className="text-center text-lg text-slate-600 mb-16 max-w-2xl mx-auto">
+          Explore our range of advanced water purification systems designed for maximum health and safety.
         </p>
 
         {products.length === 0 ? (
@@ -66,7 +66,7 @@ export default function Models() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
-              <div key={product.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 border border-gray-100">
+              <div key={product.id} className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-slate-100 overflow-hidden flex flex-col">
                 <div className="h-48 bg-gray-200 flex items-center justify-center">
                   {product.image_url ? (
                     <img
@@ -79,10 +79,10 @@ export default function Models() {
                   )}
                 </div>
 
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 text-gray-900">{product.model_name}</h3>
+                <div className="p-8 flex flex-col flex-grow">
+                  <h3 className="text-2xl font-bold mb-4 text-slate-800">{product.model_name}</h3>
 
-                  <div className="space-y-2 mb-5">
+                  <div className="space-y-3 mb-8 flex-grow">
                     <div className="flex justify-between">
                       <span className="text-gray-600 text-sm">Price:</span>
                       <span className="font-bold text-green-600 text-lg">₹{product.price.toLocaleString()}</span>
@@ -99,7 +99,7 @@ export default function Models() {
 
                   <Link
                     to={`/models/${product.id}`}
-                    className="block w-full text-center bg-green-600 text-white py-2.5 rounded-lg mb-3 hover:bg-green-700 transition-colors duration-300 font-semibold"
+                    className="block w-full text-center bg-blue-600 text-white py-3 rounded-xl mb-4 hover:bg-blue-700 transition-colors duration-300 font-bold shadow-md hover:shadow-lg"
                   >
                     View Details
                   </Link>

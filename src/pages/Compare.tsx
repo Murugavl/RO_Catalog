@@ -67,9 +67,9 @@ export default function Compare() {
   return (
     <div className="min-h-screen py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-4">Compare Models</h1>
-        <p className="text-center text-gray-600 mb-12">
-          Select up to 3 models to compare side by side
+        <h1 className="text-5xl font-bold text-center mb-6 text-slate-800">Compare Models</h1>
+        <p className="text-center text-lg text-slate-600 mb-12 max-w-2xl mx-auto">
+          Select up to 3 models to compare side by side and find the perfect match for you.
         </p>
 
         {selectedProducts.length === 0 ? (
@@ -80,9 +80,9 @@ export default function Compare() {
                 <button
                   key={product.id}
                   onClick={() => handleSelectProduct(product)}
-                  className={`p-4 border-2 rounded-xl text-left transition-all duration-300 ${isSelected(product.id)
-                      ? 'border-green-600 bg-green-50 shadow-md'
-                      : 'border-gray-300 hover:border-green-400 hover:shadow-sm'
+                  className={`p-6 border-2 rounded-2xl text-left transition-all duration-300 shadow-sm hover:shadow-md ${isSelected(product.id)
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-slate-200 hover:border-blue-400 bg-white'
                     }`}
                 >
                   <div className="font-semibold mb-2 text-gray-900">{product.model_name}</div>
@@ -96,12 +96,12 @@ export default function Compare() {
           <>
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-3xl font-bold text-slate-800">
                   Comparing {selectedProducts.length} Model{selectedProducts.length > 1 ? 's' : ''}
                 </h2>
                 <button
                   onClick={() => setSelectedProducts([])}
-                  className="text-blue-600 hover:underline"
+                  className="text-white bg-slate-800 hover:bg-slate-700 font-medium px-4 py-2 rounded-lg transition-colors shadow-sm"
                 >
                   Clear Selection
                 </button>
@@ -114,10 +114,10 @@ export default function Compare() {
                     onClick={() => handleSelectProduct(product)}
                     disabled={!isSelected(product.id) && selectedProducts.length >= 3}
                     className={`px-4 py-2 rounded-lg transition-all duration-300 font-semibold ${isSelected(product.id)
-                        ? 'bg-green-600 text-white shadow-md'
-                        : selectedProducts.length >= 3
-                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      ? 'bg-green-600 text-white shadow-md'
+                      : selectedProducts.length >= 3
+                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                   >
                     {product.model_name}
@@ -127,18 +127,18 @@ export default function Compare() {
             </div>
 
             <div className="overflow-x-auto border border-gray-200 rounded-xl">
-              <table className="w-full bg-white">
-                <thead className="bg-gray-100">
+              <table className="w-full bg-white divide-y divide-slate-200">
+                <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-6 py-4 text-left font-bold">Feature</th>
+                    <th className="px-6 py-5 text-left font-bold text-slate-700 tracking-wider">Feature</th>
                     {selectedProducts.map((product) => (
-                      <th key={product.id} className="px-6 py-4 text-left font-bold">
+                      <th key={product.id} className="px-6 py-5 text-left font-bold text-slate-800 text-lg">
                         {product.model_name}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-slate-200">
                   <tr className="border-t">
                     <td className="px-6 py-4 font-semibold bg-gray-50">Image</td>
                     {selectedProducts.map((product) => (
@@ -210,7 +210,7 @@ export default function Compare() {
                         <div className="flex flex-col gap-2">
                           <Link
                             to={`/models/${product.id}`}
-                            className="text-center bg-green-600 text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-green-700 transition-colors"
+                            className="text-center bg-blue-600 text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm"
                           >
                             View Details
                           </Link>

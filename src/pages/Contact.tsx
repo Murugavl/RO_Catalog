@@ -16,14 +16,14 @@ export default function Contact() {
   return (
     <div className="min-h-screen py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-4">Contact Us</h1>
-        <p className="text-center text-gray-600 mb-12">
-          Get in touch with us for any inquiries about our RO purifiers
+        <h1 className="text-5xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-500">Contact Us</h1>
+        <p className="text-center text-lg text-slate-600 mb-16 max-w-2xl mx-auto">
+          Get in touch with our expert team for inquiries, support, or installation of your new RO purifier.
         </p>
 
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+            <div className="bg-white p-10 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <div className="bg-green-100 p-3 rounded-full mr-4">
                   <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -44,7 +44,7 @@ export default function Contact() {
               </button>
             </div>
 
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+            <div className="bg-white p-10 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <div className="bg-green-100 p-3 rounded-full mr-4">
                   <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
@@ -65,7 +65,7 @@ export default function Contact() {
               </button>
             </div>
 
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+            <div className="bg-white p-10 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col justify-between">
               <div className="flex items-center mb-4">
                 <div className="bg-slate-100 p-3 rounded-full mr-4">
                   <svg className="w-6 h-6 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
