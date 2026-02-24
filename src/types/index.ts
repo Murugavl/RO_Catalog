@@ -1,28 +1,37 @@
 export interface Product {
   id: string;
-  model_name: string;
+  name: string;
+  brand: string;
+  shortDescription: string;
+  detailedDescription: string;
   price: number;
-  technology_type: string;
+  imageUrl: string;
+  technologyType: string;
   capacity: string;
   warranty: string;
-  description: string;
-  specifications: Record<string, any>;
-  image_url: string;
-  gallery_images: string[];
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  purificationStages: string;
+  energyConsumption: string;
+  colorVariant: string;
+  dimensions: string;
+  weight: string;
+  tags: string[];
+  createdAt: string;
 }
 
 export interface ProductFormData {
-  model_name: string;
-  price: number;
-  technology_type: string;
+  name: string;
+  brand: string;
+  shortDescription: string;
+  detailedDescription: string;
+  price: string;
+  technologyType: string;
   capacity: string;
   warranty: string;
-  description: string;
-  specifications: Record<string, any>;
-  image_url: string;
-  gallery_images: string[];
-  is_active: boolean;
+  purificationStages: string;
+  energyConsumption: string;
+  colorVariant: string;
+  dimensions: string;
+  weight: string;
+  tags: string;
+  image: File | null;
 }

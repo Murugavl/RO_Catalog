@@ -1,268 +1,218 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
-import { Product, ProductFormData } from '../../types';
+import { useState } from 'react';
+import { ProductFormData } from '../../types';
 
 interface ProductFormProps {
-  product: Product | null;
   onSuccess: () => void;
   onCancel: () => void;
 }
 
-export default function ProductForm({ product, onSuccess, onCancel }: ProductFormProps) {
+export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
   const [formData, setFormData] = useState<ProductFormData>({
-    model_name: '',
-    price: 0,
-    technology_type: 'RO',
+    name: '',
+    brand: '',
+    price: '',
+    shortDescription: '',
+    detailedDescription: '',
+    technologyType: 'RO',
     capacity: '',
     warranty: '',
-    description: '',
-    specifications: {},
-    image_url: '',
-    gallery_images: [],
-    is_active: true,
+    purificationStages: '',
+    energyConsumption: '',
+    colorVariant: '',
+    dimensions: '',
+    weight: '',
+    tags: '',
+    image: null
   });
-  const [specsInput, setSpecsInput] = useState('');
-  const [galleryInput, setGalleryInput] = useState('');
+
+  const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
 
-  useEffect(() => {
-    if (product) {
-      setFormData({
-        model_name: product.model_name,
-        price: product.price,
-        technology_type: product.technology_type,
-        capacity: product.capacity,
-        warranty: product.warranty,
-        description: product.description,
-        specifications: product.specifications,
-        image_url: product.image_url,
-        gallery_images: product.gallery_images,
-        is_active: product.is_active,
-      });
-      setSpecsInput(JSON.stringify(product.specifications, null, 2));
-      setGalleryInput(product.gallery_images.join('\n'));
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setFormData({ ...formData, image: file });
+      setPreview(URL.createObjectURL(file));
     }
-  }, [product]);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
     setLoading(true);
 
     try {
-      let specs = {};
-      if (specsInput.trim()) {
-        try {
-          specs = JSON.parse(specsInput);
-        } catch {
-          throw new Error('Invalid JSON in specifications field');
-        }
+      if (!formData.image) {
+        throw new Error("Please select an image");
       }
 
-      const gallery = galleryInput
-        .split('\n')
-        .map(url => url.trim())
-        .filter(url => url.length > 0);
+      const postData = new FormData();
+      postData.append('name', formData.name);
+      postData.append('brand', formData.brand);
+      postData.append('price', formData.price);
+      postData.append('shortDescription', formData.shortDescription);
+      postData.append('detailedDescription', formData.detailedDescription);
+      postData.append('technologyType', formData.technologyType);
+      postData.append('capacity', formData.capacity);
+      postData.append('warranty', formData.warranty);
+      postData.append('purificationStages', formData.purificationStages);
+      postData.append('energyConsumption', formData.energyConsumption);
+      postData.append('colorVariant', formData.colorVariant);
+      postData.append('dimensions', formData.dimensions);
+      postData.append('weight', formData.weight);
+      postData.append('tags', formData.tags);
+      postData.append('image', formData.image);
 
-      const dataToSave = {
-        ...formData,
-        specifications: specs,
-        gallery_images: gallery,
-      };
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch('http://127.0.0.1:5000/api/admin/models', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: postData
+      });
 
-      if (product) {
-        const { error } = await supabase
-          .from('products')
-          .update(dataToSave)
-          .eq('id', product.id);
+      const result = await response.json();
 
-        if (error) throw error;
-      } else {
-        const { error } = await supabase
-          .from('products')
-          .insert([dataToSave]);
-
-        if (error) throw error;
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to save product');
       }
 
-      onSuccess();
-    } catch (error: any) {
-      setError(error.message || 'Failed to save product');
+      setSuccessMsg("Product added successfully!");
+      setTimeout(() => onSuccess(), 1000);
+    } catch (err: any) {
+      setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleInputChange = (field: keyof ProductFormData, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const InputField = ({ label, field, required = false, type = 'text', placeholder = '' }: any) => (
+    <div className="mb-4">
+      <label className="block text-slate-700 font-semibold mb-2">{label} {required && '*'}</label>
+      <input
+        type={type}
+        required={required}
+        value={String(formData[field])}
+        onChange={(e) => handleInputChange(field, e.target.value)}
+        className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        placeholder={placeholder}
+      />
+    </div>
+  );
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl">
           {error}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="block text-gray-700 font-semibold mb-2">
-            Model Name *
-          </label>
-          <input
-            type="text"
-            value={formData.model_name}
-            onChange={(e) => setFormData({ ...formData, model_name: e.target.value })}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="e.g., AquaPure Pro 7000"
-          />
+      {successMsg && (
+        <div className="bg-green-50 border border-emerald-200 text-emerald-600 px-4 py-3 rounded-xl font-medium">
+          ✅ {successMsg}
         </div>
+      )}
 
-        <div>
-          <label className="block text-gray-700 font-semibold mb-2">
-            Price (₹) *
-          </label>
-          <input
-            type="number"
-            value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-            required
-            min="0"
-            step="0.01"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="e.g., 15000"
-          />
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+        <InputField label="Model Name" field="name" required placeholder="e.g., AquaPure Pro" />
+        <InputField label="Brand Name" field="brand" placeholder="e.g., Kent" />
+        <InputField label="Price (₹)" field="price" required type="number" placeholder="20000" />
+        <InputField label="Capacity" field="capacity" placeholder="e.g., 7L" />
 
-        <div>
-          <label className="block text-gray-700 font-semibold mb-2">
-            Technology Type *
-          </label>
+        <div className="mb-4">
+          <label className="block text-slate-700 font-semibold mb-2">Technology Type *</label>
           <select
-            value={formData.technology_type}
-            onChange={(e) => setFormData({ ...formData, technology_type: e.target.value })}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+            value={formData.technologyType}
+            onChange={(e) => handleInputChange('technologyType', e.target.value)}
+            className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"
           >
             <option value="RO">RO</option>
             <option value="RO+UV">RO+UV</option>
-            <option value="RO+UV+UF">RO+UV+UF</option>
+            <option value="RO+UV+UF+TDS">RO+UV+UF+TDS</option>
             <option value="UV">UV</option>
             <option value="UF">UF</option>
           </select>
         </div>
 
+        <InputField label="Warranty" field="warranty" placeholder="e.g., 1 Year" />
+        <InputField label="Purification Stages" field="purificationStages" placeholder="e.g., 7 Stages" />
+        <InputField label="Energy Consumption" field="energyConsumption" placeholder="e.g., 60W" />
+        <InputField label="Color Variant" field="colorVariant" placeholder="e.g., Premium Black" />
+        <InputField label="Dimensions" field="dimensions" placeholder="L x W x H" />
+        <InputField label="Weight" field="weight" placeholder="e.g., 8.5 kg" />
+        <InputField label="Tags (comma separated)" field="tags" placeholder="premium, hot-water, smart" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-gray-700 font-semibold mb-2">
-            Capacity *
-          </label>
-          <input
-            type="text"
-            value={formData.capacity}
-            onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="e.g., 7L, 10L"
+          <label className="block text-slate-700 font-semibold mb-2">Short Description</label>
+          <textarea
+            value={formData.shortDescription}
+            onChange={(e) => handleInputChange('shortDescription', e.target.value)}
+            className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"
+            rows={3}
+            placeholder="Brief highlight of the model..."
           />
         </div>
-
         <div>
-          <label className="block text-gray-700 font-semibold mb-2">
-            Warranty *
-          </label>
-          <input
-            type="text"
-            value={formData.warranty}
-            onChange={(e) => setFormData({ ...formData, warranty: e.target.value })}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="e.g., 2 Years"
+          <label className="block text-slate-700 font-semibold mb-2">Detailed Description</label>
+          <textarea
+            value={formData.detailedDescription}
+            onChange={(e) => handleInputChange('detailedDescription', e.target.value)}
+            className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"
+            rows={3}
+            placeholder="Full description..."
           />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 font-semibold mb-2">
-            Status
-          </label>
-          <select
-            value={formData.is_active ? 'active' : 'inactive'}
-            onChange={(e) => setFormData({ ...formData, is_active: e.target.value === 'active' })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          >
-            <option value="active">Active (Visible to public)</option>
-            <option value="inactive">Inactive (Hidden from public)</option>
-          </select>
         </div>
       </div>
 
-      <div>
-        <label className="block text-gray-700 font-semibold mb-2">
-          Primary Image URL
-        </label>
+      {/* Image Upload Area */}
+      <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-6 flex flex-col items-center justify-center relative">
         <input
-          type="url"
-          value={formData.image_url}
-          onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          placeholder="https://example.com/image.jpg"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
+        {preview ? (
+          <div className="text-center pointer-events-none">
+            <img src={preview} alt="Preview" className="h-40 object-contain mx-auto rounded shadow-sm mb-3" />
+            <p className="text-sm font-semibold text-blue-600">Click to change image</p>
+          </div>
+        ) : (
+          <div className="text-center pointer-events-none">
+            <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+            </div>
+            <h3 className="font-semibold text-slate-700">Upload Product Image</h3>
+            <p className="text-sm text-slate-500 mt-1">PNG, JPG, WEBP formats allowed.</p>
+          </div>
+        )}
       </div>
 
-      <div>
-        <label className="block text-gray-700 font-semibold mb-2">
-          Gallery Images (one URL per line)
-        </label>
-        <textarea
-          value={galleryInput}
-          onChange={(e) => setGalleryInput(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          rows={4}
-          placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
-        />
-      </div>
-
-      <div>
-        <label className="block text-gray-700 font-semibold mb-2">
-          Description
-        </label>
-        <textarea
-          value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          rows={4}
-          placeholder="Detailed product description..."
-        />
-      </div>
-
-      <div>
-        <label className="block text-gray-700 font-semibold mb-2">
-          Specifications (JSON format)
-        </label>
-        <textarea
-          value={specsInput}
-          onChange={(e) => setSpecsInput(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 font-mono text-sm"
-          rows={8}
-          placeholder='{"filter_type": "RO Membrane", "power": "24V", "purification_stages": "7"}'
-        />
-        <p className="text-sm text-gray-500 mt-1">
-          Enter specifications in JSON format. Example: {`{"feature": "value"}`}
-        </p>
-      </div>
-
-      <div className="flex space-x-4">
-        <button
-          type="submit"
-          disabled={loading}
-          className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-semibold disabled:bg-gray-400"
-        >
-          {loading ? 'Saving...' : product ? 'Update Product' : 'Add Product'}
-        </button>
+      <div className="flex space-x-4 pt-4 border-t">
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition font-semibold"
+          className="flex-1 bg-white border border-slate-300 text-slate-700 py-3 rounded-xl hover:bg-slate-50 transition font-bold"
         >
           Cancel
+        </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="flex-1 bg-gradient-to-r from-blue-600 to-emerald-500 text-white py-3 rounded-xl hover:shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] transition-all font-bold disabled:opacity-75 disabled:cursor-not-allowed"
+        >
+          {loading ? 'Processing...' : 'Add Products'}
         </button>
       </div>
     </form>

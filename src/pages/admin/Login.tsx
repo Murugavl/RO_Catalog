@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -15,15 +14,22 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const response = await fetch('http://127.0.0.1:5000/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
       });
 
-      if (error) throw error;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to login');
+      }
+
+      localStorage.setItem('adminToken', data.token);
       navigate('/admin/dashboard');
-    } catch (error: any) {
-      setError(error.message || 'Failed to login');
+    } catch (err: any) {
+      setError(err.message || 'Failed to login');
     } finally {
       setLoading(false);
     }
@@ -42,17 +48,17 @@ export default function AdminLogin() {
 
         <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
-              Email
+            <label htmlFor="username" className="block text-gray-700 font-semibold mb-2">
+              Username
             </label>
             <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-              placeholder="admin@example.com"
+              placeholder="admin"
             />
           </div>
 

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import { CONTACT_INFO } from '../components/ContactButtons';
 import { mockProducts } from '../data/mockProducts';
@@ -15,16 +14,14 @@ export default function Models() {
 
   const loadProducts = async () => {
     try {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setProducts(data && data.length > 0 ? data : mockProducts);
+      const response = await fetch('http://127.0.0.1:5000/api/models');
+      if (!response.ok) throw new Error('Network error');
+      const data = await response.json();
+      setProducts(data.models && data.models.length > 0 ? data.models : mockProducts);
     } catch (error) {
       console.error('Error loading products:', error);
+      // Fallback
+      setProducts(mockProducts);
     } finally {
       setLoading(false);
     }
@@ -52,7 +49,7 @@ export default function Models() {
   }
 
   return (
-    <div className="min-h-screen py-8 md:py-12">
+    <div className="min-h-screen py-8 md:py-12 bg-slate-50">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl md:text-5xl font-bold text-center mb-4 md:mb-6 text-slate-800">Our Premium Collection</h1>
         <p className="text-center text-base md:text-lg text-slate-600 mb-10 md:mb-16 max-w-2xl mx-auto">
@@ -79,15 +76,15 @@ export default function Models() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
             {products.map((product) => (
-              <div key={product.id} className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-slate-100 overflow-hidden flex flex-col">
-                <div className="h-48 bg-gray-200 flex items-center justify-center">
-                  {product.image_url ? (
+              <div key={product.id} className="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-slate-100 overflow-hidden flex flex-col group">
+                <div className="h-56 bg-white flex items-center justify-center p-6 border-b border-gray-50">
+                  {product.imageUrl ? (
                     <img
-                      src={product.image_url}
-                      alt={product.model_name}
-                      className="h-full w-full object-cover"
+                      src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
+                      alt={product.name}
+                      className="h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="text-gray-400">No Image</div>
@@ -95,46 +92,46 @@ export default function Models() {
                 </div>
 
                 <div className="p-8 flex flex-col flex-grow">
-                  <h3 className="text-2xl font-bold mb-4 text-slate-800">{product.model_name}</h3>
+                  <h3 className="text-2xl font-bold mb-4 text-slate-800">{product.name}</h3>
 
-                  <div className="space-y-3 mb-8 flex-grow">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 text-sm">Price:</span>
-                      <span className="font-bold text-green-600 text-lg">₹{product.price.toLocaleString()}</span>
+                  <div className="space-y-4 mb-8 flex-grow">
+                    <div className="flex justify-between items-center border-b border-slate-50 pb-2">
+                      <span className="text-gray-500 text-sm">Price</span>
+                      <span className="font-extrabold text-blue-600 text-xl">₹{product.price?.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 text-sm">Technology:</span>
-                      <span className="font-semibold text-gray-800">{product.technology_type}</span>
+                    <div className="flex justify-between items-center border-b border-slate-50 pb-2">
+                      <span className="text-gray-500 text-sm">Technology</span>
+                      <span className="font-semibold text-gray-800">{product.technologyType || 'RO'}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 text-sm">Capacity:</span>
-                      <span className="font-semibold text-gray-800">{product.capacity}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500 text-sm">Capacity</span>
+                      <span className="font-semibold text-gray-800">{product.capacity || '7L'}</span>
                     </div>
                   </div>
 
                   <Link
                     to={`/models/${product.id}`}
-                    className="block w-full text-center bg-blue-600 text-white py-3 rounded-xl mb-4 hover:bg-blue-700 transition-colors duration-300 font-bold shadow-md hover:shadow-lg"
+                    className="block w-full text-center bg-blue-50 text-blue-700 py-3 rounded-xl mb-4 hover:bg-blue-600 hover:text-white transition-colors duration-300 font-bold shadow-sm"
                   >
                     View Details
                   </Link>
 
                   <div className="grid grid-cols-3 gap-2">
                     <button
-                      onClick={() => handleWhatsApp(product.model_name)}
+                      onClick={() => handleWhatsApp(product.name)}
                       className="bg-[#25D366] text-white py-2 rounded-lg hover:bg-[#128C7E] transition-all duration-300 text-xs font-semibold transform hover:-translate-y-1 hover:shadow-md"
                     >
                       WhatsApp
                     </button>
                     <button
                       onClick={handlePhone}
-                      className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-xs font-semibold transform hover:-translate-y-1 hover:shadow-md"
+                      className="bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-900 transition-all duration-300 text-xs font-semibold transform hover:-translate-y-1 hover:shadow-md"
                     >
                       Call
                     </button>
                     <button
-                      onClick={() => handleEmail(product.model_name)}
-                      className="bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-800 transition-all duration-300 text-xs font-semibold transform hover:-translate-y-1 hover:shadow-md"
+                      onClick={() => handleEmail(product.name)}
+                      className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-xs font-semibold transform hover:-translate-y-1 hover:shadow-md"
                     >
                       Email
                     </button>
