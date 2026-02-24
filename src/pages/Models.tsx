@@ -28,16 +28,8 @@ export default function Models() {
   };
 
   const handleWhatsApp = (modelName: string) => {
-    const message = encodeURIComponent(`Hi 😊 I was checking your ${modelName} model.\nCan you share more details and installation information?`);
+    const message = encodeURIComponent(`Hi 👋 I'm interested in the ${modelName} water purifier. Could you please share more details?`);
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
-  };
-
-  const handlePhone = () => {
-    window.location.href = `tel:${CONTACT_INFO.phone}`;
-  };
-
-  const handleEmail = (modelName: string) => {
-    window.location.href = `mailto:${CONTACT_INFO.email}?subject=Inquiry about ${modelName}`;
   };
 
   if (loading) {
@@ -111,31 +103,10 @@ export default function Models() {
 
                   <Link
                     to={`/models/${product.id}`}
-                    className="block w-full text-center bg-blue-50 text-blue-700 py-3 rounded-xl mb-4 hover:bg-blue-600 hover:text-white transition-colors duration-300 font-bold shadow-sm"
+                    className="block w-full text-center bg-blue-50 text-blue-700 py-3 rounded-xl hover:bg-blue-600 hover:text-white transition-colors duration-300 font-bold shadow-sm"
                   >
                     View Details
                   </Link>
-
-                  <div className="grid grid-cols-3 gap-2">
-                    <button
-                      onClick={() => handleWhatsApp(product.name)}
-                      className="bg-[#25D366] text-white py-2 rounded-lg hover:bg-[#128C7E] transition-all duration-300 text-xs font-semibold transform hover:-translate-y-1 hover:shadow-md"
-                    >
-                      WhatsApp
-                    </button>
-                    <button
-                      onClick={handlePhone}
-                      className="bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-900 transition-all duration-300 text-xs font-semibold transform hover:-translate-y-1 hover:shadow-md"
-                    >
-                      Call
-                    </button>
-                    <button
-                      onClick={() => handleEmail(product.name)}
-                      className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-xs font-semibold transform hover:-translate-y-1 hover:shadow-md"
-                    >
-                      Email
-                    </button>
-                  </div>
                 </div>
               </div>
             ))}

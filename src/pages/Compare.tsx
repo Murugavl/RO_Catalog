@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import { CONTACT_INFO } from '../components/ContactButtons';
 import { mockProducts } from '../data/mockProducts';
@@ -16,16 +15,13 @@ export default function Compare() {
 
   const loadProducts = async () => {
     try {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_active', true)
-        .order('model_name');
-
-      if (error) throw error;
-      setProducts(data && data.length > 0 ? data : mockProducts);
+      const response = await fetch('http://127.0.0.1:5000/api/models');
+      if (!response.ok) throw new Error('Network error');
+      const data = await response.json();
+      setProducts(data.models && data.models.length > 0 ? data.models : mockProducts);
     } catch (error) {
       console.error('Error loading products:', error);
+      setProducts(mockProducts);
     } finally {
       setLoading(false);
     }
@@ -41,19 +37,6 @@ export default function Compare() {
 
   const isSelected = (productId: string) => {
     return selectedProducts.some(p => p.id === productId);
-  };
-
-  const handleWhatsApp = (modelName: string) => {
-    const message = encodeURIComponent(`Hi 😊 I was checking your ${modelName} model.\nCan you share more details and installation information?`);
-    window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
-  };
-
-  const handlePhone = () => {
-    window.location.href = `tel:${CONTACT_INFO.phone}`;
-  };
-
-  const handleEmail = (modelName: string) => {
-    window.location.href = `mailto:${CONTACT_INFO.email}?subject=Inquiry about ${modelName}`;
   };
 
   if (loading) {
@@ -93,9 +76,9 @@ export default function Compare() {
                     : 'border-slate-200 hover:border-blue-400 bg-white'
                     }`}
                 >
-                  <div className="font-semibold mb-2 text-gray-900">{product.model_name}</div>
-                  <div className="text-sm text-gray-600">₹{product.price.toLocaleString()}</div>
-                  <div className="text-sm text-gray-600">{product.technology_type}</div>
+                  <div className="font-semibold mb-2 text-gray-900">{product.name}</div>
+                  <div className="text-sm text-gray-600">₹{product.price?.toLocaleString()}</div>
+                  <div className="text-sm text-gray-600">{product.technologyType}</div>
                 </button>
               ))}
             </div>
@@ -122,43 +105,43 @@ export default function Compare() {
                     onClick={() => handleSelectProduct(product)}
                     disabled={!isSelected(product.id) && selectedProducts.length >= 3}
                     className={`px-4 py-2 rounded-lg transition-all duration-300 font-semibold ${isSelected(product.id)
-                      ? 'bg-green-600 text-white shadow-md'
+                      ? 'bg-emerald-600 text-white shadow-md'
                       : selectedProducts.length >= 3
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                   >
-                    {product.model_name}
+                    {product.name}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="overflow-x-auto border border-gray-200 rounded-xl">
+            <div className="overflow-x-auto border border-slate-200 rounded-xl">
               <table className="w-full bg-white divide-y divide-slate-200">
                 <thead className="bg-slate-50">
                   <tr>
                     <th className="px-6 py-5 text-left font-bold text-slate-700 tracking-wider">Feature</th>
                     {selectedProducts.map((product) => (
                       <th key={product.id} className="px-6 py-5 text-left font-bold text-slate-800 text-lg">
-                        {product.model_name}
+                        {product.name}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
                   <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50">Image</td>
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Image</td>
                     {selectedProducts.map((product) => (
                       <td key={product.id} className="px-6 py-4">
-                        {product.image_url ? (
+                        {product.imageUrl ? (
                           <img
-                            src={product.image_url}
-                            alt={product.model_name}
-                            className="w-32 h-32 object-cover rounded"
+                            src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
+                            alt={product.name}
+                            className="w-32 h-32 object-contain rounded"
                           />
                         ) : (
-                          <div className="w-32 h-32 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-sm">
+                          <div className="w-32 h-32 bg-gray-50 border border-slate-100 rounded flex items-center justify-center text-slate-400 text-sm">
                             No Image
                           </div>
                         )}
@@ -167,80 +150,87 @@ export default function Compare() {
                   </tr>
 
                   <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50">Price</td>
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Price</td>
                     {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-green-600 font-bold text-lg">
-                        ₹{product.price.toLocaleString()}
+                      <td key={product.id} className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                        ₹{product.price?.toLocaleString()}
                       </td>
                     ))}
                   </tr>
 
                   <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50">Technology</td>
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Technology</td>
+                    {selectedProducts.map((product) => (
+                      <td key={product.id} className="px-6 py-4 text-slate-700">
+                        {product.technologyType || 'N/A'}
+                      </td>
+                    ))}
+                  </tr>
+
+                  <tr className="border-t">
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Capacity</td>
+                    {selectedProducts.map((product) => (
+                      <td key={product.id} className="px-6 py-4 text-slate-700">
+                        {product.capacity || 'N/A'}
+                      </td>
+                    ))}
+                  </tr>
+
+                  <tr className="border-t">
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Warranty</td>
+                    {selectedProducts.map((product) => (
+                      <td key={product.id} className="px-6 py-4 text-slate-700">
+                        {product.warranty || 'N/A'}
+                      </td>
+                    ))}
+                  </tr>
+
+                  <tr className="border-t">
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Purification Stages</td>
+                    {selectedProducts.map((product) => (
+                      <td key={product.id} className="px-6 py-4 text-slate-700">
+                        {product.purificationStages || 'N/A'}
+                      </td>
+                    ))}
+                  </tr>
+
+                  <tr className="border-t">
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Energy Consumption</td>
+                    {selectedProducts.map((product) => (
+                      <td key={product.id} className="px-6 py-4 text-slate-700">
+                        {product.energyConsumption || 'N/A'}
+                      </td>
+                    ))}
+                  </tr>
+
+                  <tr className="border-t">
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Dimensions</td>
+                    {selectedProducts.map((product) => (
+                      <td key={product.id} className="px-6 py-4 text-slate-700">
+                        {product.dimensions || 'N/A'}
+                      </td>
+                    ))}
+                  </tr>
+
+                  <tr className="border-t">
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Weight</td>
+                    {selectedProducts.map((product) => (
+                      <td key={product.id} className="px-6 py-4 text-slate-700">
+                        {product.weight || 'N/A'}
+                      </td>
+                    ))}
+                  </tr>
+
+                  <tr className="border-t">
+                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Actions</td>
                     {selectedProducts.map((product) => (
                       <td key={product.id} className="px-6 py-4">
-                        {product.technology_type}
-                      </td>
-                    ))}
-                  </tr>
-
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50">Capacity</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4">
-                        {product.capacity}
-                      </td>
-                    ))}
-                  </tr>
-
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50">Warranty</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4">
-                        {product.warranty}
-                      </td>
-                    ))}
-                  </tr>
-
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50">Description</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-sm">
-                        {product.description || 'N/A'}
-                      </td>
-                    ))}
-                  </tr>
-
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50">Actions</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4">
-                        <div className="flex flex-col gap-2">
-                          <Link
-                            to={`/models/${product.id}`}
-                            className="text-center bg-blue-600 text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm"
-                          >
-                            View Details
-                          </Link>
-                          <button
-                            onClick={() => handleWhatsApp(product.model_name)}
-                            className="text-center bg-[#25D366] text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-[#128C7E] transition-colors"
-                          >
-                            WhatsApp
-                          </button>
-                          <button
-                            onClick={handlePhone}
-                            className="text-center bg-blue-600 text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-blue-700 transition-colors"
-                          >
-                            Call
-                          </button>
-                          <button
-                            onClick={() => handleEmail(product.model_name)}
-                            className="text-center bg-slate-700 text-white py-2 px-3 rounded-lg text-xs font-semibold hover:bg-slate-800 transition-colors"
-                          >
-                            Email
-                          </button>
-                        </div>
+                        <Link
+                          to={`/models/${product.id}`}
+                          className="block text-center bg-blue-600 text-white py-3 px-4 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-sm"
+                        >
+                          View Details
+                        </Link>
                       </td>
                     ))}
                   </tr>

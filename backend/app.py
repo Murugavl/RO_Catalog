@@ -102,8 +102,6 @@ def add_model():
     model_doc = {
         "name": name,
         "brand": data.get("brand", ""),
-        "shortDescription": data.get("shortDescription", ""),
-        "detailedDescription": data.get("detailedDescription", ""),
         "price": price,
         "imageUrl": f"/uploads/{filename}",
         "technologyType": data.get("technologyType", ""),

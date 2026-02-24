@@ -11,8 +11,6 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
     name: '',
     brand: '',
     price: '',
-    shortDescription: '',
-    detailedDescription: '',
     technologyType: 'RO',
     capacity: '',
     warranty: '',
@@ -53,8 +51,6 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
       postData.append('name', formData.name);
       postData.append('brand', formData.brand);
       postData.append('price', formData.price);
-      postData.append('shortDescription', formData.shortDescription);
-      postData.append('detailedDescription', formData.detailedDescription);
       postData.append('technologyType', formData.technologyType);
       postData.append('capacity', formData.capacity);
       postData.append('warranty', formData.warranty);
@@ -100,7 +96,7 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
       <input
         type={type}
         required={required}
-        value={String(formData[field])}
+        value={String(formData[field as keyof ProductFormData] || '')}
         onChange={(e) => handleInputChange(field, e.target.value)}
         className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
         placeholder={placeholder}
@@ -150,29 +146,6 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
         <InputField label="Dimensions" field="dimensions" placeholder="L x W x H" />
         <InputField label="Weight" field="weight" placeholder="e.g., 8.5 kg" />
         <InputField label="Tags (comma separated)" field="tags" placeholder="premium, hot-water, smart" />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="block text-slate-700 font-semibold mb-2">Short Description</label>
-          <textarea
-            value={formData.shortDescription}
-            onChange={(e) => handleInputChange('shortDescription', e.target.value)}
-            className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"
-            rows={3}
-            placeholder="Brief highlight of the model..."
-          />
-        </div>
-        <div>
-          <label className="block text-slate-700 font-semibold mb-2">Detailed Description</label>
-          <textarea
-            value={formData.detailedDescription}
-            onChange={(e) => handleInputChange('detailedDescription', e.target.value)}
-            className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"
-            rows={3}
-            placeholder="Full description..."
-          />
-        </div>
       </div>
 
       {/* Image Upload Area */}
