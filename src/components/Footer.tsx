@@ -12,7 +12,7 @@ export default function Footer() {
           <Link to="/contact" className="hover:text-[#128C7E] transition-colors">Contact</Link>
         </div>
 
-        <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-slate-400">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-x-6 gap-y-3 text-sm text-slate-400">
           <a href="tel:+919597794387" className="hover:text-white transition-colors flex items-center gap-2">
             <span className="text-[#128C7E]">📱</span> +91 95977 94387
           </a>

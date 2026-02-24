@@ -4,23 +4,19 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <section
-        className="py-32 md:py-40 relative overflow-hidden bg-cover bg-center"
+        className="py-20 md:py-32 lg:py-40 relative overflow-hidden bg-cover bg-[center_bottom]"
         style={{ backgroundImage: "url('/hero-water-bg.jpg')" }}
       >
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2))' }}
-        ></div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight animate-fade-in-up text-blue-950 drop-shadow-sm">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up text-[#0A1F44] [text-shadow:_0_1px_2px_rgba(0,0,0,0.1)]">
             Advanced RO Water Purifiers for Safer, Healthier Homes
           </h1>
-          <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-blue-900 font-medium leading-snug animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'both' }}>
+          <p className="text-lg md:text-xl lg:text-2xl mb-10 md:mb-12 max-w-3xl mx-auto text-blue-900 font-medium leading-snug animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'both' }}>
             High-quality purification systems with warranty, expert installation, and reliable support.
           </p>
           <Link
             to="/models"
-            className="inline-flex items-center justify-center bg-blue-600 text-white px-10 py-4 rounded-full font-bold shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.5)] hover:bg-blue-700 transition-all duration-300 transform hover:scale-[1.03] text-lg group animate-fade-in-up"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-emerald-500 text-white px-10 py-4 rounded-full font-bold shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.5)] transition-all duration-300 transform hover:scale-[1.03] hover:brightness-110 text-lg group animate-fade-in-up"
             style={{ animationDelay: '0.3s', animationFillMode: 'both' }}
           >
             Explore Our Models
