@@ -11,7 +11,7 @@ import cloudinary.uploader
 import cloudinary.api
 import certifi
 
-load_dotenv()
+load_dotenv(override=True)
 
 app = Flask(__name__)
 # Enable CORS for frontend
