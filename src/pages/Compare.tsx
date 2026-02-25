@@ -55,8 +55,8 @@ export default function Compare() {
           Select up to 3 models to compare side by side and find the perfect match for you.
         </p>
 
-        {selectedProducts.length === 0 ? (
-          <div className="mb-12">
+        <div className="mb-12">
+          {selectedProducts.length === 0 && (
             <div className="bg-blue-50 border border-blue-100 rounded-2xl p-8 mb-10 flex flex-col items-center text-center max-w-3xl mx-auto shadow-sm">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm text-blue-500">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
@@ -64,44 +64,53 @@ export default function Compare() {
               <h2 className="text-2xl font-bold text-slate-800 mb-2">Build Your Comparison</h2>
               <p className="text-slate-600 text-lg">Select up to 3 models from the list below to compare features side by side.</p>
             </div>
+          )}
 
-            <h2 className="text-2xl font-bold mb-6 text-slate-800">Available Products</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {products.map((product) => (
-                <button
-                  key={product.id}
-                  onClick={() => handleSelectProduct(product)}
-                  className={`relative p-4 border-2 rounded-2xl text-left transition-all duration-300 shadow-sm hover:shadow-md flex flex-col h-full ${isSelected(product.id)
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-slate-200 hover:border-blue-400 bg-white'
-                    }`}
-                >
-                  <div className={`absolute top-3 right-3 w-6 h-6 rounded flex items-center justify-center transition-colors z-10 ${isSelected(product.id) ? 'bg-blue-500 border-blue-500' : 'bg-white border-2 border-slate-300'}`}>
-                    {isSelected(product.id) && (
-                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                  </div>
-                  <div className="w-full aspect-square bg-white rounded-xl mb-4 flex items-center justify-center p-2 border border-slate-100 overflow-hidden shadow-sm">
-                    {product.imageUrl ? (
-                      <img
-                        src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
-                        alt={product.name}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    ) : (
-                      <span className="text-slate-400 text-sm">No Image</span>
-                    )}
-                  </div>
-                  <div className="font-semibold mb-1 text-gray-900 line-clamp-2 leading-snug">{product.name}</div>
-                  <div className="text-sm font-bold text-emerald-600 mt-auto pt-2">₹{product.price?.toLocaleString()}</div>
-                  <div className="text-xs text-slate-500 mt-1">{product.technologyType}</div>
-                </button>
-              ))}
-            </div>
+          <div className="flex justify-between items-end mb-6">
+            <h2 className="text-2xl font-bold text-slate-800">Available Products</h2>
+            {selectedProducts.length > 0 && (
+              <div className="text-sm font-semibold text-blue-600 bg-blue-50 px-4 py-2 rounded-lg">
+                {selectedProducts.length} / 3 Selected
+              </div>
+            )}
           </div>
-        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {products.map((product) => (
+              <button
+                key={product.id}
+                onClick={() => handleSelectProduct(product)}
+                className={`relative p-4 border-2 rounded-2xl text-left transition-all duration-300 shadow-sm hover:shadow-md flex flex-col h-full ${isSelected(product.id)
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-slate-200 hover:border-blue-400 bg-white'
+                  }`}
+              >
+                <div className={`absolute top-3 right-3 w-6 h-6 rounded flex items-center justify-center transition-colors z-10 ${isSelected(product.id) ? 'bg-blue-500 border-blue-500' : 'bg-white border-2 border-slate-300'}`}>
+                  {isSelected(product.id) && (
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </div>
+                <div className="w-full aspect-square bg-white rounded-xl mb-4 flex items-center justify-center p-2 border border-slate-100 overflow-hidden shadow-sm">
+                  {product.imageUrl ? (
+                    <img
+                      src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
+                      alt={product.name}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-slate-400 text-sm">No Image</span>
+                  )}
+                </div>
+                <div className="font-semibold mb-1 text-gray-900 line-clamp-2 leading-snug">{product.name}</div>
+                <div className="text-sm font-bold text-emerald-600 mt-auto pt-2">₹{product.price?.toLocaleString()}</div>
+                <div className="text-xs text-slate-500 mt-1">{product.technologyType}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {selectedProducts.length > 0 && (
           <>
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
@@ -253,6 +262,6 @@ export default function Compare() {
           </>
         )}
       </div>
-    </div>
+    </div >
   );
 }
