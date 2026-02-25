@@ -6,7 +6,10 @@ from flask_pymongo import PyMongo
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
-from werkzeug.utils import secure_filename
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+import certifi
 
 load_dotenv()
 
@@ -22,12 +25,15 @@ if mongo_uri is None:
 
 app.config["MONGO_URI"] = mongo_uri
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "fallback-secret")
-app.config["UPLOAD_FOLDER"] = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB max
 
-os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
 
-mongo = PyMongo(app)
+mongo = PyMongo(app, tlsCAFile=certifi.where())
 jwt = JWTManager(app)
 
 # Test connection
@@ -89,11 +95,12 @@ def add_model():
     except ValueError:
         return jsonify({"error": "Price must be a valid number"}), 400
 
-    filename = secure_filename(file.filename)
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    filename = f"{timestamp}_{filename}"
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    file.save(filepath)
+    try:
+        upload_result = cloudinary.uploader.upload(file)
+        image_url = upload_result["secure_url"]
+        cloudinary_id = upload_result["public_id"]
+    except Exception as e:
+        return jsonify({"error": f"Image upload failed: {str(e)}"}), 500
 
     tags_str = data.get("tags", "")
     tags = [t.strip() for t in tags_str.split(",") if t.strip()]
@@ -103,7 +110,8 @@ def add_model():
         "name": name,
         "brand": data.get("brand", ""),
         "price": price,
-        "imageUrl": f"/uploads/{filename}",
+        "imageUrl": image_url,
+        "cloudinaryId": cloudinary_id,
         "technologyType": data.get("technologyType", ""),
         "capacity": data.get("capacity", ""),
         "warranty": data.get("warranty", ""),
@@ -142,12 +150,12 @@ def delete_model(id):
     if not model:
         return jsonify({"error": "Model not found"}), 404
         
-    image_url = model.get("imageUrl", "")
-    if image_url.startswith("/uploads/"):
-        filename = image_url.replace("/uploads/", "")
-        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        if os.path.exists(filepath):
-            os.remove(filepath)
+    cloudinary_id = model.get("cloudinaryId")
+    if cloudinary_id:
+        try:
+            cloudinary.uploader.destroy(cloudinary_id)
+        except Exception as e:
+            print(f"Failed to delete image from Cloudinary: {e}")
             
     mongo.db.models.delete_one({"_id": obj_id})
     return jsonify({"message": "Model deleted successfully"}), 200
@@ -157,9 +165,7 @@ def get_public_models():
     models = list(mongo.db.models.find().sort("createdAt", -1))
     return jsonify({"models": [dump_model(m) for m in models]}), 200
 
-@app.route('/uploads/<path:filename>')
-def serve_upload(filename):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

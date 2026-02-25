@@ -30,6 +30,7 @@ dist-ssr
 # python
 .venv/
 venv/
+*.pyc
 
 
 # Editor directories and files
