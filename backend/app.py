@@ -160,6 +160,73 @@ def delete_model(id):
     mongo.db.models.delete_one({"_id": obj_id})
     return jsonify({"message": "Model deleted successfully"}), 200
 
+@app.route('/api/admin/models/<id>', methods=['PUT'])
+@jwt_required()
+def edit_model(id):
+    try:
+        obj_id = ObjectId(id)
+    except:
+        return jsonify({"error": "Invalid ID format"}), 400
+        
+    model = mongo.db.models.find_one({"_id": obj_id})
+    if not model:
+        return jsonify({"error": "Model not found"}), 404
+        
+    data = request.form
+    name = data.get("name")
+    price = data.get("price")
+    
+    if not name or not price:
+        return jsonify({"error": "Name and price are required"}), 400
+        
+    try:
+        price = float(price)
+    except ValueError:
+        return jsonify({"error": "Price must be a valid number"}), 400
+        
+    update_fields = {
+        "name": name,
+        "brand": data.get("brand", ""),
+        "price": price,
+        "technologyType": data.get("technologyType", ""),
+        "capacity": data.get("capacity", ""),
+        "warranty": data.get("warranty", ""),
+        "purificationStages": data.get("purificationStages", ""),
+        "energyConsumption": data.get("energyConsumption", ""),
+        "colorVariant": data.get("colorVariant", ""),
+        "dimensions": data.get("dimensions", ""),
+        "weight": data.get("weight", "")
+    }
+
+    tags_str = data.get("tags", "")
+    if tags_str is not None:
+        update_fields["tags"] = [t.strip() for t in tags_str.split(",") if t.strip()]
+
+    if 'image' in request.files and request.files['image'].filename != '':
+        file = request.files['image']
+        if not allowed_file(file.filename):
+            return jsonify({"error": "Invalid file type. Allowed: jpg, png, webp"}), 400
+            
+        try:
+            upload_result = cloudinary.uploader.upload(file)
+            update_fields["imageUrl"] = upload_result["secure_url"]
+            update_fields["cloudinaryId"] = upload_result["public_id"]
+            
+            if model.get("cloudinaryId"):
+                try:
+                    cloudinary.uploader.destroy(model.get("cloudinaryId"))
+                except Exception as e:
+                    print(f"Old image delete failed: {e}")
+        except Exception as e:
+            return jsonify({"error": f"Image upload failed: {str(e)}"}), 500
+
+    mongo.db.models.update_one({"_id": obj_id}, {"$set": update_fields})
+    updated_model = mongo.db.models.find_one({"_id": obj_id})
+    return jsonify({
+        "message": "Model updated successfully",
+        "model": dump_model(updated_model)
+    }), 200
+
 @app.route('/api/models', methods=['GET'])
 def get_public_models():
     models = list(mongo.db.models.find().sort("createdAt", -1))

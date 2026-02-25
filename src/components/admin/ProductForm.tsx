@@ -1,29 +1,44 @@
 import { useState } from 'react';
-import { ProductFormData } from '../../types';
+import { ProductFormData, Product } from '../../types';
 
 interface ProductFormProps {
+  initialData?: Product;
   onSuccess: () => void;
   onCancel: () => void;
 }
 
-export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
+const InputField = ({ label, value, onChange, required = false, type = 'text', placeholder = '' }: any) => (
+  <div className="mb-4">
+    <label className="block text-slate-700 font-semibold mb-2">{label} {required && '*'}</label>
+    <input
+      type={type}
+      required={required}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+      placeholder={placeholder}
+    />
+  </div>
+);
+
+export default function ProductForm({ initialData, onSuccess, onCancel }: ProductFormProps) {
   const [formData, setFormData] = useState<ProductFormData>({
-    name: '',
-    brand: '',
-    price: '',
-    technologyType: 'RO',
-    capacity: '',
-    warranty: '',
-    purificationStages: '',
-    energyConsumption: '',
-    colorVariant: '',
-    dimensions: '',
-    weight: '',
-    tags: '',
+    name: initialData?.name || '',
+    brand: initialData?.brand || '',
+    price: initialData?.price?.toString() || '',
+    technologyType: initialData?.technologyType || 'RO',
+    capacity: initialData?.capacity || '',
+    warranty: initialData?.warranty || '',
+    purificationStages: initialData?.purificationStages || '',
+    energyConsumption: initialData?.energyConsumption || '',
+    colorVariant: initialData?.colorVariant || '',
+    dimensions: initialData?.dimensions || '',
+    weight: initialData?.weight || '',
+    tags: initialData?.tags?.join(', ') || '',
     image: null
   });
 
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(initialData?.imageUrl || null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -43,7 +58,8 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
     setLoading(true);
 
     try {
-      if (!formData.image) {
+      const isEditing = !!initialData;
+      if (!isEditing && !formData.image) {
         throw new Error("Please select an image");
       }
 
@@ -60,11 +76,17 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
       postData.append('dimensions', formData.dimensions);
       postData.append('weight', formData.weight);
       postData.append('tags', formData.tags);
-      postData.append('image', formData.image);
+      if (formData.image) {
+        postData.append('image', formData.image);
+      }
 
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://127.0.0.1:5000/api/admin/models', {
-        method: 'POST',
+      const url = isEditing
+        ? `http://127.0.0.1:5000/api/admin/models/${initialData.id}`
+        : 'http://127.0.0.1:5000/api/admin/models';
+
+      const response = await fetch(url, {
+        method: isEditing ? 'PUT' : 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -77,7 +99,7 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
         throw new Error(result.error || 'Failed to save product');
       }
 
-      setSuccessMsg("Product added successfully!");
+      setSuccessMsg(`Product ${isEditing ? 'updated' : 'added'} successfully!`);
       setTimeout(() => onSuccess(), 1000);
     } catch (err: any) {
       setError(err.message || 'An error occurred');
@@ -89,20 +111,6 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
   const handleInputChange = (field: keyof ProductFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
-
-  const InputField = ({ label, field, required = false, type = 'text', placeholder = '' }: any) => (
-    <div className="mb-4">
-      <label className="block text-slate-700 font-semibold mb-2">{label} {required && '*'}</label>
-      <input
-        type={type}
-        required={required}
-        value={String(formData[field as keyof ProductFormData] || '')}
-        onChange={(e) => handleInputChange(field, e.target.value)}
-        className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-        placeholder={placeholder}
-      />
-    </div>
-  );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -119,10 +127,10 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
-        <InputField label="Model Name" field="name" required placeholder="e.g., AquaPure Pro" />
-        <InputField label="Brand Name" field="brand" placeholder="e.g., Kent" />
-        <InputField label="Price (₹)" field="price" required type="number" placeholder="20000" />
-        <InputField label="Capacity" field="capacity" placeholder="e.g., 7L" />
+        <InputField label="Model Name" value={formData.name} onChange={(v: string) => handleInputChange('name', v)} required placeholder="e.g., AquaPure Pro" />
+        <InputField label="Brand Name" value={formData.brand} onChange={(v: string) => handleInputChange('brand', v)} placeholder="e.g., Kent" />
+        <InputField label="Price (₹)" value={formData.price} onChange={(v: string) => handleInputChange('price', v)} required type="number" placeholder="20000" />
+        <InputField label="Capacity" value={formData.capacity} onChange={(v: string) => handleInputChange('capacity', v)} placeholder="e.g., 7L" />
 
         <div className="mb-4">
           <label className="block text-slate-700 font-semibold mb-2">Technology Type *</label>
@@ -139,13 +147,13 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
           </select>
         </div>
 
-        <InputField label="Warranty" field="warranty" placeholder="e.g., 1 Year" />
-        <InputField label="Purification Stages" field="purificationStages" placeholder="e.g., 7 Stages" />
-        <InputField label="Energy Consumption" field="energyConsumption" placeholder="e.g., 60W" />
-        <InputField label="Color Variant" field="colorVariant" placeholder="e.g., Premium Black" />
-        <InputField label="Dimensions" field="dimensions" placeholder="L x W x H" />
-        <InputField label="Weight" field="weight" placeholder="e.g., 8.5 kg" />
-        <InputField label="Tags (comma separated)" field="tags" placeholder="premium, hot-water, smart" />
+        <InputField label="Warranty" value={formData.warranty} onChange={(v: string) => handleInputChange('warranty', v)} placeholder="e.g., 1 Year" />
+        <InputField label="Purification Stages" value={formData.purificationStages} onChange={(v: string) => handleInputChange('purificationStages', v)} placeholder="e.g., 7 Stages" />
+        <InputField label="Energy Consumption" value={formData.energyConsumption} onChange={(v: string) => handleInputChange('energyConsumption', v)} placeholder="e.g., 60W" />
+        <InputField label="Color Variant" value={formData.colorVariant} onChange={(v: string) => handleInputChange('colorVariant', v)} placeholder="e.g., Premium Black" />
+        <InputField label="Dimensions" value={formData.dimensions} onChange={(v: string) => handleInputChange('dimensions', v)} placeholder="L x W x H" />
+        <InputField label="Weight" value={formData.weight} onChange={(v: string) => handleInputChange('weight', v)} placeholder="e.g., 8.5 kg" />
+        <InputField label="Tags (comma separated)" value={formData.tags} onChange={(v: string) => handleInputChange('tags', v)} placeholder="premium, hot-water, smart" />
       </div>
 
       {/* Image Upload Area */}
@@ -158,7 +166,7 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
         />
         {preview ? (
           <div className="text-center pointer-events-none">
-            <img src={preview} alt="Preview" className="h-40 object-contain mx-auto rounded shadow-sm mb-3" />
+            <img src={preview.startsWith('http') ? preview : `http://127.0.0.1:5000${preview}`} alt="Preview" className="h-40 object-contain mx-auto rounded shadow-sm mb-3" />
             <p className="text-sm font-semibold text-blue-600">Click to change image</p>
           </div>
         ) : (
@@ -185,7 +193,7 @@ export default function ProductForm({ onSuccess, onCancel }: ProductFormProps) {
           disabled={loading}
           className="flex-1 bg-gradient-to-r from-blue-600 to-emerald-500 text-white py-3 rounded-xl hover:shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] transition-all font-bold disabled:opacity-75 disabled:cursor-not-allowed"
         >
-          {loading ? 'Processing...' : 'Add Products'}
+          {loading ? 'Processing...' : initialData ? 'Update Product' : 'Add Product'}
         </button>
       </div>
     </form>

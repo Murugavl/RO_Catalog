@@ -9,6 +9,7 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | undefined>(undefined);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,6 +63,12 @@ export default function AdminDashboard() {
   };
 
   const handleAddProduct = () => {
+    setEditingProduct(undefined);
+    setShowForm(true);
+  };
+
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product);
     setShowForm(true);
   };
 
@@ -100,7 +107,7 @@ export default function AdminDashboard() {
       {/* Sidebar Navigation */}
       <aside className="w-64 bg-slate-900 text-slate-100 flex flex-col hidden md:flex min-h-screen shadow-xl">
         <div className="p-6 border-b border-slate-700">
-          <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">Ponsri Admin</h2>
+          <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">Ponsri Enterprises</h2>
         </div>
         <nav className="flex-1 px-4 py-8 space-y-2">
           <button className="w-full text-left px-4 py-3 rounded-xl bg-blue-600 font-semibold mb-2">
@@ -124,7 +131,7 @@ export default function AdminDashboard() {
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Mobile Header */}
         <header className="md:hidden bg-white shadow-sm flex items-center justify-between p-4 border-b">
-          <h2 className="font-bold text-lg">Admin Dashboard</h2>
+          <h2 className="font-bold text-lg">Ponsri Enterprises</h2>
           <button onClick={handleLogout} className="text-red-500 font-bold px-3 py-1 border border-red-500 rounded">Logout</button>
         </header>
 
@@ -155,7 +162,7 @@ export default function AdminDashboard() {
                 <div className="bg-white rounded-2xl w-full max-w-4xl max-h-full overflow-y-auto shadow-2xl relative">
                   <div className="sticky top-0 bg-white/95 backdrop-blur z-10 border-b px-8 py-5 flex justify-between items-center">
                     <h3 className="text-2xl font-bold text-slate-800">
-                      Add New Model
+                      {editingProduct ? 'Edit Model' : 'Add New Model'}
                     </h3>
                     <button
                       onClick={() => setShowForm(false)}
@@ -166,6 +173,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="p-8">
                     <ProductForm
+                      initialData={editingProduct}
                       onSuccess={handleFormSuccess}
                       onCancel={() => setShowForm(false)}
                     />
@@ -212,6 +220,12 @@ export default function AdminDashboard() {
                           <span className="font-bold text-emerald-600">₹{product.price?.toLocaleString()}</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right">
+                          <button
+                            onClick={() => handleEditProduct(product)}
+                            className="text-blue-500 hover:text-blue-700 font-bold bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition mr-2"
+                          >
+                            Edit
+                          </button>
                           <button
                             onClick={() => handleDeleteProduct(product.id)}
                             className="text-red-500 hover:text-red-700 font-bold bg-red-50 hover:bg-red-100 px-4 py-2 rounded-lg transition"

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
-import { CONTACT_INFO } from '../components/ContactButtons';
+
 import { mockProducts } from '../data/mockProducts';
 
 export default function Compare() {
@@ -71,14 +71,25 @@ export default function Compare() {
                 <button
                   key={product.id}
                   onClick={() => handleSelectProduct(product)}
-                  className={`p-6 border-2 rounded-2xl text-left transition-all duration-300 shadow-sm hover:shadow-md ${isSelected(product.id)
+                  className={`p-4 border-2 rounded-2xl text-left transition-all duration-300 shadow-sm hover:shadow-md flex flex-col h-full ${isSelected(product.id)
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-slate-200 hover:border-blue-400 bg-white'
                     }`}
                 >
-                  <div className="font-semibold mb-2 text-gray-900">{product.name}</div>
-                  <div className="text-sm text-gray-600">₹{product.price?.toLocaleString()}</div>
-                  <div className="text-sm text-gray-600">{product.technologyType}</div>
+                  <div className="w-full aspect-square bg-white rounded-xl mb-4 flex items-center justify-center p-2 border border-slate-100 overflow-hidden shadow-sm">
+                    {product.imageUrl ? (
+                      <img
+                        src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
+                        alt={product.name}
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    ) : (
+                      <span className="text-slate-400 text-sm">No Image</span>
+                    )}
+                  </div>
+                  <div className="font-semibold mb-1 text-gray-900 line-clamp-2 leading-snug">{product.name}</div>
+                  <div className="text-sm font-bold text-emerald-600 mt-auto pt-2">₹{product.price?.toLocaleString()}</div>
+                  <div className="text-xs text-slate-500 mt-1">{product.technologyType}</div>
                 </button>
               ))}
             </div>
@@ -117,125 +128,127 @@ export default function Compare() {
               </div>
             </div>
 
-            <div className="overflow-x-auto border border-slate-200 rounded-xl">
-              <table className="w-full bg-white divide-y divide-slate-200">
-                <thead className="bg-slate-50">
-                  <tr>
-                    <th className="px-6 py-5 text-left font-bold text-slate-700 tracking-wider">Feature</th>
-                    {selectedProducts.map((product) => (
-                      <th key={product.id} className="px-6 py-5 text-left font-bold text-slate-800 text-lg">
-                        {product.name}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Image</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4">
-                        {product.imageUrl ? (
-                          <img
-                            src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
-                            alt={product.name}
-                            className="w-32 h-32 object-contain rounded"
-                          />
-                        ) : (
-                          <div className="w-32 h-32 bg-gray-50 border border-slate-100 rounded flex items-center justify-center text-slate-400 text-sm">
-                            No Image
-                          </div>
-                        )}
-                      </td>
-                    ))}
-                  </tr>
+            <div className="overflow-x-auto border border-slate-200 rounded-xl shadow-sm mb-12 relative w-full" style={{ maxWidth: "100vw" }}>
+              <div className="min-w-max md:min-w-full inline-block align-middle">
+                <table className="w-full text-left bg-white divide-y divide-slate-200 table-fixed">
+                  <thead className="bg-slate-50">
+                    <tr>
+                      <th className="px-6 py-5 font-bold text-slate-700 tracking-wider w-40 md:w-1/4">Feature</th>
+                      {selectedProducts.map((product) => (
+                        <th key={product.id} className="px-6 py-5 font-bold text-slate-800 text-lg w-64 md:w-1/4">
+                          <div className="line-clamp-2">{product.name}</div>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Image</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4">
+                          {product.imageUrl ? (
+                            <img
+                              src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
+                              alt={product.name}
+                              className="w-32 h-32 object-contain rounded"
+                            />
+                          ) : (
+                            <div className="w-32 h-32 bg-gray-50 border border-slate-100 rounded flex items-center justify-center text-slate-400 text-sm">
+                              No Image
+                            </div>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Price</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-emerald-600 font-bold text-lg">
-                        ₹{product.price?.toLocaleString()}
-                      </td>
-                    ))}
-                  </tr>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Price</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                          ₹{product.price?.toLocaleString()}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Technology</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-slate-700">
-                        {product.technologyType || 'N/A'}
-                      </td>
-                    ))}
-                  </tr>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Technology</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4 text-slate-700">
+                          {product.technologyType || 'N/A'}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Capacity</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-slate-700">
-                        {product.capacity || 'N/A'}
-                      </td>
-                    ))}
-                  </tr>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Capacity</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4 text-slate-700">
+                          {product.capacity || 'N/A'}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Warranty</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-slate-700">
-                        {product.warranty || 'N/A'}
-                      </td>
-                    ))}
-                  </tr>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Warranty</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4 text-slate-700">
+                          {product.warranty || 'N/A'}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Purification Stages</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-slate-700">
-                        {product.purificationStages || 'N/A'}
-                      </td>
-                    ))}
-                  </tr>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Purification Stages</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4 text-slate-700">
+                          {product.purificationStages || 'N/A'}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Energy Consumption</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-slate-700">
-                        {product.energyConsumption || 'N/A'}
-                      </td>
-                    ))}
-                  </tr>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Energy Consumption</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4 text-slate-700">
+                          {product.energyConsumption || 'N/A'}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Dimensions</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-slate-700">
-                        {product.dimensions || 'N/A'}
-                      </td>
-                    ))}
-                  </tr>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Dimensions</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4 text-slate-700">
+                          {product.dimensions || 'N/A'}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Weight</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4 text-slate-700">
-                        {product.weight || 'N/A'}
-                      </td>
-                    ))}
-                  </tr>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Weight</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4 text-slate-700">
+                          {product.weight || 'N/A'}
+                        </td>
+                      ))}
+                    </tr>
 
-                  <tr className="border-t">
-                    <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Actions</td>
-                    {selectedProducts.map((product) => (
-                      <td key={product.id} className="px-6 py-4">
-                        <Link
-                          to={`/models/${product.id}`}
-                          className="block text-center bg-blue-600 text-white py-3 px-4 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-sm"
-                        >
-                          View Details
-                        </Link>
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
+                    <tr className="border-t">
+                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Actions</td>
+                      {selectedProducts.map((product) => (
+                        <td key={product.id} className="px-6 py-4">
+                          <Link
+                            to={`/models/${product.id}`}
+                            className="block text-center bg-blue-600 text-white py-3 px-4 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-sm"
+                          >
+                            View Details
+                          </Link>
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </>
         )}
