@@ -14,4 +14,4 @@ COPY . .
 EXPOSE 5000
 
 # Bind to 0.0.0.0 inside the container so the host can access it
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT app:app"]
