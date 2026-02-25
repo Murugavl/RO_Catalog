@@ -65,7 +65,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
     
-    if username == 'admin' and password == 'secure123':
+    if username == os.getenv("ADMIN_USERNAME") and password == os.getenv("ADMIN_PASSWORD"):
         token = create_access_token(identity=username)
         return jsonify({'token': token}), 200
     return jsonify({'error': 'Invalid credentials'}), 401
