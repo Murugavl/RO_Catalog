@@ -32,9 +32,7 @@ export default function ProductForm({ initialData, onSuccess, onCancel }: Produc
     purificationStages: initialData?.purificationStages || '',
     energyConsumption: initialData?.energyConsumption || '',
     colorVariant: initialData?.colorVariant || '',
-    dimensions: initialData?.dimensions || '',
     weight: initialData?.weight || '',
-    tags: initialData?.tags?.join(', ') || '',
     image: null
   });
 
@@ -73,9 +71,7 @@ export default function ProductForm({ initialData, onSuccess, onCancel }: Produc
       postData.append('purificationStages', formData.purificationStages);
       postData.append('energyConsumption', formData.energyConsumption);
       postData.append('colorVariant', formData.colorVariant);
-      postData.append('dimensions', formData.dimensions);
       postData.append('weight', formData.weight);
-      postData.append('tags', formData.tags);
       if (formData.image) {
         postData.append('image', formData.image);
       }
@@ -151,9 +147,7 @@ export default function ProductForm({ initialData, onSuccess, onCancel }: Produc
         <InputField label="Purification Stages" value={formData.purificationStages} onChange={(v: string) => handleInputChange('purificationStages', v)} placeholder="e.g., 7 Stages" />
         <InputField label="Energy Consumption" value={formData.energyConsumption} onChange={(v: string) => handleInputChange('energyConsumption', v)} placeholder="e.g., 60W" />
         <InputField label="Color Variant" value={formData.colorVariant} onChange={(v: string) => handleInputChange('colorVariant', v)} placeholder="e.g., Premium Black" />
-        <InputField label="Dimensions" value={formData.dimensions} onChange={(v: string) => handleInputChange('dimensions', v)} placeholder="L x W x H" />
         <InputField label="Weight" value={formData.weight} onChange={(v: string) => handleInputChange('weight', v)} placeholder="e.g., 8.5 kg" />
-        <InputField label="Tags (comma separated)" value={formData.tags} onChange={(v: string) => handleInputChange('tags', v)} placeholder="premium, hot-water, smart" />
       </div>
 
       {/* Image Upload Area */}

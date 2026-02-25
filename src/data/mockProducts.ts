@@ -15,9 +15,7 @@ export const mockProducts: Product[] = [
         purificationStages: '7 Stages',
         energyConsumption: '60W',
         colorVariant: 'White/Blue',
-        dimensions: '350 x 250 x 450 mm',
         weight: '8 kg',
-        tags: ['ro', 'premium', 'family'],
         createdAt: new Date().toISOString()
     },
     {
@@ -34,9 +32,7 @@ export const mockProducts: Product[] = [
         purificationStages: '5 Stages',
         energyConsumption: '45W',
         colorVariant: 'White',
-        dimensions: '300 x 200 x 400 mm',
         weight: '6.5 kg',
-        tags: ['ro', 'compact'],
         createdAt: new Date().toISOString()
     },
     {
@@ -53,9 +49,7 @@ export const mockProducts: Product[] = [
         purificationStages: '8 Stages',
         energyConsumption: '60W',
         colorVariant: 'Black/Copper',
-        dimensions: '380 x 280 x 480 mm',
         weight: '9.5 kg',
-        tags: ['copper', 'premium', 'health'],
         createdAt: new Date().toISOString()
     }
 ];

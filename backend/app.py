@@ -102,9 +102,6 @@ def add_model():
     except Exception as e:
         return jsonify({"error": f"Image upload failed: {str(e)}"}), 500
 
-    tags_str = data.get("tags", "")
-    tags = [t.strip() for t in tags_str.split(",") if t.strip()]
-
     # Construct Document
     model_doc = {
         "name": name,
@@ -118,9 +115,7 @@ def add_model():
         "purificationStages": data.get("purificationStages", ""),
         "energyConsumption": data.get("energyConsumption", ""),
         "colorVariant": data.get("colorVariant", ""),
-        "dimensions": data.get("dimensions", ""),
         "weight": data.get("weight", ""),
-        "tags": tags,
         "createdAt": datetime.now(timezone.utc)
     }
 
@@ -194,13 +189,8 @@ def edit_model(id):
         "purificationStages": data.get("purificationStages", ""),
         "energyConsumption": data.get("energyConsumption", ""),
         "colorVariant": data.get("colorVariant", ""),
-        "dimensions": data.get("dimensions", ""),
         "weight": data.get("weight", "")
     }
-
-    tags_str = data.get("tags", "")
-    if tags_str is not None:
-        update_fields["tags"] = [t.strip() for t in tags_str.split(",") if t.strip()]
 
     if 'image' in request.files and request.files['image'].filename != '':
         file = request.files['image']

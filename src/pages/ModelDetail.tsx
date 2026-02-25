@@ -131,10 +131,6 @@ export default function ModelDetail() {
                   <span className="font-bold text-slate-800 text-lg">{product.colorVariant || 'N/A'}</span>
                 </div>
                 <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
-                  <span className="block text-sm text-slate-500 mb-1">Dimensions</span>
-                  <span className="font-bold text-slate-800 text-lg">{product.dimensions || 'N/A'}</span>
-                </div>
-                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
                   <span className="block text-sm text-slate-500 mb-1">Weight</span>
                   <span className="font-bold text-slate-800 text-lg">{product.weight || 'N/A'}</span>
                 </div>

@@ -71,11 +71,18 @@ export default function Compare() {
                 <button
                   key={product.id}
                   onClick={() => handleSelectProduct(product)}
-                  className={`p-4 border-2 rounded-2xl text-left transition-all duration-300 shadow-sm hover:shadow-md flex flex-col h-full ${isSelected(product.id)
+                  className={`relative p-4 border-2 rounded-2xl text-left transition-all duration-300 shadow-sm hover:shadow-md flex flex-col h-full ${isSelected(product.id)
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-slate-200 hover:border-blue-400 bg-white'
                     }`}
                 >
+                  <div className={`absolute top-3 right-3 w-6 h-6 rounded flex items-center justify-center transition-colors z-10 ${isSelected(product.id) ? 'bg-blue-500 border-blue-500' : 'bg-white border-2 border-slate-300'}`}>
+                    {isSelected(product.id) && (
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
                   <div className="w-full aspect-square bg-white rounded-xl mb-4 flex items-center justify-center p-2 border border-slate-100 overflow-hidden shadow-sm">
                     {product.imageUrl ? (
                       <img
@@ -215,14 +222,7 @@ export default function Compare() {
                       ))}
                     </tr>
 
-                    <tr className="border-t">
-                      <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Dimensions</td>
-                      {selectedProducts.map((product) => (
-                        <td key={product.id} className="px-6 py-4 text-slate-700">
-                          {product.dimensions || 'N/A'}
-                        </td>
-                      ))}
-                    </tr>
+
 
                     <tr className="border-t">
                       <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Weight</td>

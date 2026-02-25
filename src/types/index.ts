@@ -10,10 +10,10 @@ export interface Product {
   purificationStages: string;
   energyConsumption: string;
   colorVariant: string;
-  dimensions: string;
   weight: string;
-  tags: string[];
   createdAt: string;
+  shortDescription?: string;
+  detailedDescription?: string;
 }
 
 export interface ProductFormData {
@@ -26,8 +26,6 @@ export interface ProductFormData {
   purificationStages: string;
   energyConsumption: string;
   colorVariant: string;
-  dimensions: string;
   weight: string;
-  tags: string;
   image: File | null;
 }
