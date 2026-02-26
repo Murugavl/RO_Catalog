@@ -2,7 +2,8 @@ import { CONTACT_INFO } from '../components/ContactButtons';
 
 export default function Contact() {
   const handleWhatsApp = () => {
-    window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=Hi%20🙂%20I'd%20like%20to%20get%20more%20information%20about%20your%20RO%20purifiers%20and%20pricing.`, '_blank');
+    const message = encodeURIComponent("வணக்கம் 🙂 உங்களின் RO purifiers மற்றும் விலை விவரங்கள் பற்றி மேலும் தெரிந்துகொள்ள விரும்புகிறேன்.");
+    window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
   };
 
   const handlePhone = () => {

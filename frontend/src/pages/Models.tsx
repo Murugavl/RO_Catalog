@@ -28,7 +28,7 @@ export default function Models() {
   };
 
   const handleWhatsApp = (modelName: string) => {
-    const message = encodeURIComponent(`Hi 👋 I'm interested in the ${modelName} water purifier. Could you please share more details?`);
+    const message = encodeURIComponent(`வணக்கம் 👋 நான் ${modelName} water purifier-ஐ வாங்க விரும்புகிறேன். இதைப் பற்றிய கூடுதல் விவரங்களைத் தர முடியுமா?`);
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
   };
 
