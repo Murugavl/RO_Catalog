@@ -6,7 +6,7 @@ const CONTACT_INFO = {
 
 export default function ContactButtons() {
   const handleWhatsApp = () => {
-    const message = encodeURIComponent("வணக்கம் 👋 நான் உங்கள் இணையதளத்தைப் பார்த்தேன், உங்களின் RO மாடல்களைப் பற்றி மேலும் தெரிந்துகொள்ள விரும்புகிறேன். சரியானதைத் தேர்ந்தெடுக்க எனக்கு உதவ முடியுமா?");
+    const message = encodeURIComponent("வணக்கம் நான் உங்கள் இணையதளத்தைப் பார்த்தேன், உங்களின் RO மாடல்களைப் பற்றி மேலும் தெரிந்துகொள்ள விரும்புகிறேன். சரியானதைத் தேர்ந்தெடுக்க எனக்கு உதவ முடியுமா?");
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
   };
 

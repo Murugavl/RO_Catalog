@@ -29,7 +29,7 @@ export default function Models() {
   };
 
   const handleWhatsApp = (modelName: string) => {
-    const message = encodeURIComponent(`வணக்கம் 👋 நான் ${modelName} water purifier-ஐ வாங்க விரும்புகிறேன். இதைப் பற்றிய கூடுதல் விவரங்களைத் தர முடியுமா?`);
+    const message = encodeURIComponent(`வணக்கம் நான் ${modelName} water purifier-ஐ வாங்க விரும்புகிறேன். இதைப் பற்றிய கூடுதல் விவரங்களைத் தர முடியுமா?`);
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
   };
 

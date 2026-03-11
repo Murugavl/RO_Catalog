@@ -4,7 +4,6 @@ export const mockProducts: Product[] = [
     {
         id: 'mock-1',
         name: 'Ponsri Aqua Grand+',
-        brand: 'Ponsri',
         price: 12500,
         technologyType: 'RO + UV + UF + TDS Control',
         capacity: '12L',
@@ -21,7 +20,6 @@ export const mockProducts: Product[] = [
     {
         id: 'mock-2',
         name: 'Ponsri Pearl Purifier',
-        brand: 'Ponsri',
         price: 9800,
         technologyType: 'RO + UV',
         capacity: '10L',
@@ -38,7 +36,6 @@ export const mockProducts: Product[] = [
     {
         id: 'mock-3',
         name: 'Ponsri Copper Elite',
-        brand: 'Ponsri',
         price: 14500,
         technologyType: 'RO + UV + UF + Active Copper',
         capacity: '15L',

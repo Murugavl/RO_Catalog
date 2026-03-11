@@ -2,7 +2,7 @@ import { CONTACT_INFO } from '../components/ContactButtons';
 
 export default function Contact() {
   const handleWhatsApp = () => {
-    const message = encodeURIComponent("வணக்கம் 🙂 உங்களின் RO purifiers மற்றும் விலை விவரங்கள் பற்றி மேலும் தெரிந்துகொள்ள விரும்புகிறேன்.");
+    const message = encodeURIComponent("வணக்கம் உங்களின் RO purifiers மற்றும் விலை விவரங்கள் பற்றி மேலும் தெரிந்துகொள்ள விரும்புகிறேன்.");
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
   };
 

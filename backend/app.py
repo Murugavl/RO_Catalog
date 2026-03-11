@@ -105,7 +105,6 @@ def add_model():
     # Construct Document
     model_doc = {
         "name": name,
-        "brand": data.get("brand", ""),
         "price": price,
         "imageUrl": image_url,
         "cloudinaryId": cloudinary_id,
@@ -181,7 +180,6 @@ def edit_model(id):
         
     update_fields = {
         "name": name,
-        "brand": data.get("brand", ""),
         "price": price,
         "technologyType": data.get("technologyType", ""),
         "capacity": data.get("capacity", ""),

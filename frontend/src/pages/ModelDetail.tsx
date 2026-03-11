@@ -42,7 +42,7 @@ export default function ModelDetail() {
 
   const handleWhatsApp = () => {
     if (!product) return;
-    const message = encodeURIComponent(`வணக்கம் 👋 நான் ${product.name} water purifier-ஐ வாங்க விரும்புகிறேன். இதைப் பற்றிய கூடுதல் விவரங்களைத் தர முடியுமா?`);
+    const message = encodeURIComponent(`வணக்கம் நான் ${product.name} water purifier-ஐ வாங்க விரும்புகிறேன். இதைப் பற்றிய கூடுதல் விவரங்களைத் தர முடியுமா?`);
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
   };
 
@@ -99,7 +99,6 @@ export default function ModelDetail() {
             {/* Details Column */}
             <div className="p-8 lg:p-12">
               <div className="mb-8 border-b border-slate-100 pb-8">
-                <span className="text-sm font-bold tracking-wider text-slate-400 uppercase mb-2 block">{product.brand || 'Premium Brand'}</span>
                 <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-800 mb-6 tracking-tight leading-tight">{product.name}</h1>
                 <div className="inline-block px-6 py-3 bg-emerald-50 text-emerald-600 rounded-2xl">
                   <span className="text-3xl font-bold">₹{product.price?.toLocaleString()}</span>

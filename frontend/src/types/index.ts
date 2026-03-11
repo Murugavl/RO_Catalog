@@ -1,7 +1,6 @@
 export interface Product {
   id: string;
   name: string;
-  brand: string;
   price: number;
   imageUrl: string;
   technologyType: string;
@@ -18,7 +17,6 @@ export interface Product {
 
 export interface ProductFormData {
   name: string;
-  brand: string;
   price: string;
   technologyType: string;
   capacity: string;

@@ -25,7 +25,6 @@ const InputField = ({ label, value, onChange, required = false, type = 'text', p
 export default function ProductForm({ initialData, onSuccess, onCancel }: ProductFormProps) {
   const [formData, setFormData] = useState<ProductFormData>({
     name: initialData?.name || '',
-    brand: initialData?.brand || '',
     price: initialData?.price?.toString() || '',
     technologyType: initialData?.technologyType || 'RO',
     capacity: initialData?.capacity || '',
@@ -64,7 +63,6 @@ export default function ProductForm({ initialData, onSuccess, onCancel }: Produc
 
       const postData = new FormData();
       postData.append('name', formData.name);
-      postData.append('brand', formData.brand);
       postData.append('price', formData.price);
       postData.append('technologyType', formData.technologyType);
       postData.append('capacity', formData.capacity);
@@ -125,7 +123,6 @@ export default function ProductForm({ initialData, onSuccess, onCancel }: Produc
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
         <InputField label="Model Name" value={formData.name} onChange={(v: string) => handleInputChange('name', v)} required placeholder="e.g., AquaPure Pro" />
-        <InputField label="Brand Name" value={formData.brand} onChange={(v: string) => handleInputChange('brand', v)} placeholder="e.g., Kent" />
         <InputField label="Price (₹)" value={formData.price} onChange={(v: string) => handleInputChange('price', v)} required type="number" placeholder="20000" />
         <InputField label="Capacity" value={formData.capacity} onChange={(v: string) => handleInputChange('capacity', v)} placeholder="e.g., 7L" />
 
