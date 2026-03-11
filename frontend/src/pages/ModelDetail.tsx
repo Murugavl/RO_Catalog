@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Product } from '../types';
 import { CONTACT_INFO } from '../components/ContactButtons';
 import { mockProducts } from '../data/mockProducts';
+import { API_URL } from '../config';
 
 export default function ModelDetail() {
   const { id } = useParams<{ id: string }>();
@@ -18,14 +19,14 @@ export default function ModelDetail() {
 
   const loadProduct = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/models');
+      const response = await fetch(`${API_URL}/api/models`);
       if (!response.ok) throw new Error('Network error');
       const data = await response.json();
       const productData = data.models?.find((p: Product) => p.id === id);
 
       setProduct(productData || mockProducts.find(p => p.id === id) || null);
       if (productData?.imageUrl) {
-        setSelectedImage(productData.imageUrl.startsWith('http') ? productData.imageUrl : `http://127.0.0.1:5000${productData.imageUrl}`);
+        setSelectedImage(productData.imageUrl.startsWith('http') ? productData.imageUrl : `${API_URL}${productData.imageUrl}`);
       }
     } catch (error) {
       console.error('Error loading product:', error);

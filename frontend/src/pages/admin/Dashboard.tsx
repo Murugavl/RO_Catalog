@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '../../types';
 import ProductForm from '../../components/admin/ProductForm';
+import { API_URL } from '../../config';
 
 export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -32,7 +33,7 @@ export default function AdminDashboard() {
 
   const loadProducts = async () => {
     try {
-      const res = await fetch('http://127.0.0.1:5000/api/admin/models', {
+      const res = await fetch(`${API_URL}/api/admin/models`, {
         headers: getAuthHeaders()
       });
       if (res.status === 401) {
@@ -76,7 +77,7 @@ export default function AdminDashboard() {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:5000/api/admin/models/${id}`, {
+      const res = await fetch(`${API_URL}/api/admin/models/${id}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });
@@ -203,7 +204,7 @@ export default function AdminDashboard() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {product.imageUrl ? (
                             <img
-                              src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
+                              src={product.imageUrl.startsWith('http') ? product.imageUrl : `${API_URL}${product.imageUrl}`}
                               alt={product.name}
                               className="h-16 w-16 object-cover rounded-xl shadow-sm"
                             />

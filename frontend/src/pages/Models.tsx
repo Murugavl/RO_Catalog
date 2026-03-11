@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Product } from '../types';
 import { CONTACT_INFO } from '../components/ContactButtons';
 import { mockProducts } from '../data/mockProducts';
+import { API_URL } from '../config';
 
 export default function Models() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -14,7 +15,7 @@ export default function Models() {
 
   const loadProducts = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/models');
+      const response = await fetch(`${API_URL}/api/models`);
       if (!response.ok) throw new Error('Network error');
       const data = await response.json();
       setProducts(data.models && data.models.length > 0 ? data.models : mockProducts);
@@ -74,7 +75,7 @@ export default function Models() {
                 <div className="h-56 bg-white flex items-center justify-center p-6 border-b border-gray-50">
                   {product.imageUrl ? (
                     <img
-                      src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://127.0.0.1:5000${product.imageUrl}`}
+                      src={product.imageUrl.startsWith('http') ? product.imageUrl : `${API_URL}${product.imageUrl}`}
                       alt={product.name}
                       className="h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     />

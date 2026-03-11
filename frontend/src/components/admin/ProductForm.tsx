@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ProductFormData, Product } from '../../types';
+import { API_URL } from '../../config';
 
 interface ProductFormProps {
   initialData?: Product;
@@ -78,8 +79,8 @@ export default function ProductForm({ initialData, onSuccess, onCancel }: Produc
 
       const token = localStorage.getItem('adminToken');
       const url = isEditing
-        ? `http://127.0.0.1:5000/api/admin/models/${initialData.id}`
-        : 'http://127.0.0.1:5000/api/admin/models';
+        ? `${API_URL}/api/admin/models/${initialData.id}`
+        : `${API_URL}/api/admin/models`;
 
       const response = await fetch(url, {
         method: isEditing ? 'PUT' : 'POST',
@@ -160,7 +161,7 @@ export default function ProductForm({ initialData, onSuccess, onCancel }: Produc
         />
         {preview ? (
           <div className="text-center pointer-events-none">
-            <img src={preview.startsWith('http') ? preview : `http://127.0.0.1:5000${preview}`} alt="Preview" className="h-40 object-contain mx-auto rounded shadow-sm mb-3" />
+            <img src={preview.startsWith('http') ? preview : `${API_URL}${preview}`} alt="Preview" className="h-40 object-contain mx-auto rounded shadow-sm mb-3" />
             <p className="text-sm font-semibold text-blue-600">Click to change image</p>
           </div>
         ) : (
