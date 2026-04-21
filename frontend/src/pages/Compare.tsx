@@ -49,7 +49,7 @@ export default function Compare() {
   }
 
   return (
-    <div className="min-h-screen py-12">
+    <div className="min-h-screen py-12 bg-transparent">
       <div className="container mx-auto px-4">
         <h1 className="text-5xl font-bold text-center mb-6 text-slate-800">Compare Models</h1>
         <p className="text-center text-lg text-slate-600 mb-12 max-w-2xl mx-auto">
@@ -148,7 +148,7 @@ export default function Compare() {
             <div className="overflow-x-auto border border-slate-200 rounded-xl shadow-sm mb-12 relative w-full" style={{ maxWidth: "100vw" }}>
               <div className="min-w-max md:min-w-full inline-block align-middle">
                 <table className="w-full text-left bg-white divide-y divide-slate-200 table-fixed">
-                  <thead className="bg-slate-50">
+                  <thead>
                     <tr>
                       <th className="px-6 py-5 font-bold text-slate-700 tracking-wider w-40 md:w-1/4">Feature</th>
                       {selectedProducts.map((product) => (

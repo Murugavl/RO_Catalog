@@ -48,7 +48,7 @@ export default function ModelDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
         <div className="text-xl font-medium text-slate-500">Loading details...</div>
       </div>
     );
@@ -56,7 +56,7 @@ export default function ModelDetail() {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
         <div className="text-center">
           <p className="text-2xl text-slate-600 mb-6 font-semibold">Model not found</p>
           <Link to="/models" className="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition font-bold shadow-sm">
@@ -68,7 +68,7 @@ export default function ModelDetail() {
   }
 
   return (
-    <div className="min-h-screen py-12 bg-slate-50">
+    <div className="min-h-screen py-12 bg-transparent">
       <div className="container mx-auto px-4">
         <div className="mb-6">
           <Link to="/models" className="text-blue-600 hover:text-blue-800 font-bold transition-colors">

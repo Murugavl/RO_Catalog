@@ -7,12 +7,15 @@ export default function Home() {
         className="py-20 md:py-32 lg:py-40 relative overflow-hidden bg-cover bg-[center_bottom]"
         style={{ backgroundImage: "url('/hero-water-bg.jpg')" }}
       >
-        <div className="container mx-auto px-4 text-center relative z-10">
+        {/* Improved Overlay for Contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/40 to-transparent z-0"></div>
+        
+        <div className="container mx-auto px-4 text-left relative z-10">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up text-[#0A1F44] [text-shadow:_0_1px_2px_rgba(0,0,0,0.1)]">
-            Advanced RO Water Purifiers for Safer, Healthier Homes
+            Best RO Water Purifier Dealer in Rajapalayam
           </h1>
           <p className="text-lg md:text-xl lg:text-2xl mb-10 md:mb-12 max-w-3xl mx-auto text-blue-900 font-medium leading-snug animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'both' }}>
-            High-quality purification systems with warranty, expert installation, and reliable support.
+            Premium RO machines and mineral water systems with expert installation and service across Rajapalayam.
           </p>
           <Link
             to="/models"

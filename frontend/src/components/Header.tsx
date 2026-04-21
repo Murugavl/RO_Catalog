@@ -6,14 +6,14 @@ export default function Header() {
 
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
     `transition-all duration-300 font-medium pb-1 border-b-2 block md:inline-block ${isActive
-      ? 'text-[#128C7E] border-[#128C7E]'
-      : 'text-slate-600 border-transparent hover:text-[#128C7E] hover:border-[#128C7E]'
+      ? 'text-blue-600 border-blue-600'
+      : 'text-slate-600 border-transparent hover:text-blue-600 hover:border-blue-600'
     }`;
 
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 transition-all duration-300 bg-white border-b-2 border-[#128C7E] shadow-sm hover:shadow-md relative">
+    <header className="sticky top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center hover:opacity-90 transition group" onClick={closeMenu}>
@@ -35,7 +35,7 @@ export default function Header() {
           </button>
 
           <nav className={`${isOpen ? 'block' : 'hidden'} md:block absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none border-b md:border-none border-slate-100 z-50`}>
-            <ul className="flex flex-col md:flex-row items-center gap-6 md:gap-7 py-6 md:py-0">
+            <ul className="flex flex-col md:flex-row items-center gap-6 md:gap-8 py-6 md:py-0">
               <li>
                 <NavLink to="/" className={getNavClass} end onClick={closeMenu}>
                   Home
