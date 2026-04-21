@@ -7,11 +7,31 @@ html {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Gabriela', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f7ff;
-  color: #0f172a;
+  color: #1e3a8a;
+}
+
+h1, h2, h3, h4, h5, h6, .heading-font {
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  color: #1e3a8a;
+}
+
+/* Ensure text on colored buttons/backgrounds remains white */
+.text-white, 
+button:not(.bg-transparent), 
+a.bg-blue-600, 
+a.bg-blue-700, 
+a.bg-slate-900,
+.bg-blue-900 * {
+  color: #ffffff !important;
+}
+
+.bg-blue-900 h1, .bg-blue-900 h2, .bg-blue-900 h3, .bg-blue-900 p {
+  color: #ffffff !important;
 }
 
 @layer utilities {

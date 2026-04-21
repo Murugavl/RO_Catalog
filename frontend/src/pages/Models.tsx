@@ -44,8 +44,8 @@ export default function Models() {
   return (
     <div className="min-h-screen py-8 md:py-12 bg-transparent">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl md:text-5xl font-bold text-center mb-4 md:mb-6 text-slate-800">Premium RO Machines in Rajapalayam</h1>
-        <p className="text-center text-base md:text-lg text-slate-600 mb-10 md:mb-16 max-w-2xl mx-auto">
+        <h1 className="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6 text-blue-900 heading-font">Premium RO Machines in Rajapalayam</h1>
+        <p className="text-center text-sm md:text-base text-blue-800 mb-10 md:mb-16 max-w-2xl mx-auto">
           Explore our range of advanced water purification systems designed for maximum health and safety.
         </p>
 
