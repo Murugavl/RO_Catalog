@@ -17,7 +17,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-5xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-500">Contact RO Dealer in Rajapalayam</h1>
+        <h1 className="text-5xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-cyan-500">Contact Us</h1>
         <p className="text-center text-lg text-slate-600 mb-16 max-w-2xl mx-auto">
           Need help selecting the right RO system? Reach out to us for details, pricing, and installation assistance.
         </p>

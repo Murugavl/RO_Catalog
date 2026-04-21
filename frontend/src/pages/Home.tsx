@@ -73,52 +73,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* User Reviews Circular Carousel - Smaller Circles */}
-      <section className="py-24 bg-white/30 relative group">
+      {/* User Reviews Circular Carousel - Even More Compact */}
+      <section className="py-16 bg-white/30 relative group">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-extrabold mb-4 text-blue-950 tracking-tight">What People Are Saying</h2>
-          <p className="text-lg text-blue-800/60 mb-16 font-medium italic">Trusted by thousands of families in Rajapalayam.</p>
+          <h2 className="text-3xl md:text-3xl font-extrabold mb-3 text-blue-950 tracking-tight">What People Are Saying</h2>
+          <p className="text-base text-blue-800/60 mb-10 font-medium italic">Trusted by thousands of families in Rajapalayam.</p>
           
           <div className="relative max-w-4xl mx-auto">
             {/* Arrows */}
-            <button onClick={prevSlide} className="absolute left-0 top-[30%] -translate-y-1/2 bg-white w-10 h-10 rounded-full shadow-md flex items-center justify-center text-blue-400 hover:text-blue-600 transition-all opacity-0 group-hover:opacity-100 z-20"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M15 19l-7-7 7-7"/></svg></button>
-            <button onClick={nextSlide} className="absolute right-0 top-[30%] -translate-y-1/2 bg-white w-10 h-10 rounded-full shadow-md flex items-center justify-center text-blue-400 hover:text-blue-600 transition-all opacity-0 group-hover:opacity-100 z-20"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 5l7 7-7 7"/></svg></button>
+            <button onClick={prevSlide} className="absolute left-0 top-[25%] -translate-y-1/2 bg-white w-9 h-9 rounded-full shadow-md flex items-center justify-center text-blue-400 hover:text-blue-600 transition-all opacity-0 group-hover:opacity-100 z-20"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M15 19l-7-7 7-7"/></svg></button>
+            <button onClick={nextSlide} className="absolute right-0 top-[25%] -translate-y-1/2 bg-white w-9 h-9 rounded-full shadow-md flex items-center justify-center text-blue-400 hover:text-blue-600 transition-all opacity-0 group-hover:opacity-100 z-20"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M9 5l7 7-7 7"/></svg></button>
 
-            {/* Circular Profiles Row - Smaller w-28 and w-16 */}
-            <div className="flex items-center justify-center gap-6 md:gap-10 mb-10">
+            {/* Circular Profiles Row - Compact w-24 and w-12 */}
+            <div className="flex items-center justify-center gap-6 md:gap-8 mb-8">
               {/* Prev User */}
-              <div className="hidden md:flex w-16 h-16 rounded-full bg-blue-100 items-center justify-center text-xl font-bold text-blue-300 opacity-40 transform scale-90 transition-all shadow-inner">
+              <div className="hidden md:flex w-12 h-12 rounded-full bg-blue-100 items-center justify-center text-lg font-bold text-blue-300 opacity-40 transform scale-90 transition-all shadow-inner">
                 {reviews[getIdx(-1)].name.charAt(0)}
               </div>
               
               {/* Current User */}
-              <div className="w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-blue-600/20 relative p-1 shadow-xl transition-all duration-500 transform hover:scale-105">
-                <div className="w-full h-full rounded-full bg-blue-900 flex items-center justify-center text-4xl md:text-5xl font-serif font-black text-white border-2 border-white/20">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-blue-600/10 relative p-1 shadow-lg transition-all duration-500 transform hover:scale-105">
+                <div className="w-full h-full rounded-full bg-blue-900 flex items-center justify-center text-3xl md:text-4xl font-serif font-black text-white border-2 border-white/10">
                   {reviews[getIdx(0)].name.charAt(0)}
                 </div>
               </div>
 
               {/* Next User */}
-              <div className="hidden md:flex w-16 h-16 rounded-full bg-blue-100 items-center justify-center text-xl font-bold text-blue-300 opacity-40 transform scale-90 transition-all shadow-inner">
+              <div className="hidden md:flex w-12 h-12 rounded-full bg-blue-100 items-center justify-center text-lg font-bold text-blue-300 opacity-40 transform scale-90 transition-all shadow-inner">
                 {reviews[getIdx(1)].name.charAt(0)}
               </div>
             </div>
 
             {/* Content Section */}
             <div className="max-w-2xl mx-auto">
-              {/* Stars - Cyan/Blue themed */}
-              <div className="flex justify-center gap-1 mb-6 text-blue-500">
+              {/* Stars - More compact */}
+              <div className="flex justify-center gap-1 mb-5 text-blue-500">
                 {[...Array(5)].map((_, i) => (
-                  <svg key={i} className={`w-6 h-6 ${i < reviews[getIdx(0)].rating ? 'fill-current' : 'text-blue-100'}`} viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg key={i} className={`w-5 h-5 ${i < reviews[getIdx(0)].rating ? 'fill-current' : 'text-blue-100'}`} viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                 ))}
               </div>
 
-              <div className="min-h-[140px]">
-                <p className="text-xl md:text-2xl text-blue-900/80 italic font-serif leading-relaxed mb-6 transition-all duration-700">
+              <div className="min-h-[120px]">
+                <p className="text-lg md:text-xl text-blue-900/80 italic font-serif leading-relaxed mb-5 transition-all duration-700">
                   "{reviews[getIdx(0)].text}"
                 </p>
-                <div className="h-[2px] w-8 bg-blue-400 mx-auto mb-4"></div>
-                <h4 className="text-base font-black text-blue-800 tracking-[0.2em] uppercase">
+                <div className="h-[2px] w-6 bg-blue-400 mx-auto mb-3"></div>
+                <h4 className="text-xs font-black text-blue-800 tracking-[0.25em] uppercase">
                    {reviews[getIdx(0)].name}
                 </h4>
               </div>

@@ -7,21 +7,22 @@ export default function Footer() {
         <div className="flex flex-row justify-between items-start mb-6">
           
           {/* Left Side - Simplified Pages Column */}
-          <div className="flex flex-col space-y-1">
-            <Link to="/" className="text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest">HOME</Link>
-            <Link to="/contact" className="text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest">CONTACT</Link>
+          <div className="flex flex-col space-y-2">
+            <Link to="/" className="text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors uppercase tracking-widest">HOME</Link>
+            <Link to="/contact" className="text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors uppercase tracking-widest">CONTACT</Link>
           </div>
 
           {/* Right Side - Contact Column */}
-          <div className="flex flex-col space-y-1 text-right">
-            <a href="tel:+919597794387" className="text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors">+91 95977 94387</a>
-            <a href="mailto:ponsrienterprises@gmail.com" className="text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors px-1">ponsrienterprises@gmail.com</a>
+          <div className="flex flex-col space-y-2 text-right">
+            <a href="tel:+919597794387" className="text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors">+91 95977 94387</a>
+            <a href="mailto:ponsrienterprises@gmail.com" className="text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors px-1">ponsrienterprises@gmail.com</a>
           </div>
         </div>
 
-        <div className="border-t border-blue-100 pt-4 flex flex-col md:flex-row justify-between items-center gap-2">
-          <p className="text-[10px] text-slate-500 font-bold tracking-widest uppercase">&copy; {new Date().getFullYear()} Ponsri Enterprises</p>
-          <p className="text-[10px] text-blue-600/60 font-black tracking-widest uppercase">Designed by MURUGAVEL V</p>
+        <div className="border-t border-blue-100 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm font-bold text-blue-900 md:w-1/3 text-left">Designed by MURUGAVEL V</p>
+          <p className="text-sm font-medium text-slate-600 md:w-1/3 text-center uppercase tracking-widest">&copy; {new Date().getFullYear()} Ponsri Enterprises</p>
+          <div className="md:w-1/3"></div> {/* Spacer for symmetry */}
         </div>
       </div>
     </footer>
