@@ -10,8 +10,8 @@ body {
   font-family: 'Outfit', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fbfcfd;
-  color: #334155;
+  background-color: #020617;
+  color: #f8fafc;
 }
 
 @layer utilities {

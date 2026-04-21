@@ -5,23 +5,23 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
-    `transition-all duration-300 font-medium pb-1 border-b-2 block md:inline-block ${isActive
-      ? 'text-blue-600 border-blue-600'
-      : 'text-slate-600 border-transparent hover:text-blue-600 hover:border-blue-600'
+    `transition-all duration-300 font-bold text-[11px] uppercase tracking-widest pb-1 border-b-2 block md:inline-block ${isActive
+      ? 'text-cyan-400 border-cyan-400'
+      : 'text-slate-400 border-transparent hover:text-white hover:border-slate-700'
     }`;
 
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-      <div className="container mx-auto px-4 py-3">
+    <header className="sticky top-0 z-50 transition-all duration-300 bg-black/80 backdrop-blur-xl border-b border-white/5 relative">
+      <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center hover:opacity-90 transition group" onClick={closeMenu}>
-            <img src="/ponsri-logo.png" alt="Ponsri Enterprises" className="h-[36px] md:h-[42px] w-auto transform group-hover:scale-105 transition-transform duration-300" />
+          <Link to="/" className="flex items-center hover:opacity-80 transition group" onClick={closeMenu}>
+            <img src="/ponsri-logo.png" alt="Ponsri Enterprises" className="h-[30px] md:h-[36px] w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-all" />
           </Link>
 
           <button
-            className="md:hidden text-slate-600 focus:outline-none p-1"
+            className="md:hidden text-slate-300 focus:outline-none p-1"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
           >
@@ -34,8 +34,8 @@ export default function Header() {
             </svg>
           </button>
 
-          <nav className={`${isOpen ? 'block' : 'hidden'} md:block absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none border-b md:border-none border-slate-100 z-50`}>
-            <ul className="flex flex-col md:flex-row items-center gap-6 md:gap-8 py-6 md:py-0">
+          <nav className={`${isOpen ? 'block' : 'hidden'} md:block absolute md:static top-full left-0 w-full md:w-auto bg-black md:bg-transparent shadow-2xl md:shadow-none border-t md:border-none border-white/5 z-50`}>
+            <ul className="flex flex-col md:flex-row items-center gap-6 md:gap-10 py-8 md:py-0">
               <li>
                 <NavLink to="/" className={getNavClass} end onClick={closeMenu}>
                   Home
