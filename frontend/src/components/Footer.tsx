@@ -2,27 +2,27 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 border-t border-slate-900 py-4 mt-auto">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-y-3">
-        
-        <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-6 text-xs font-bold uppercase tracking-wider text-slate-400">
-          <Link to="/" className="hover:text-cyan-400 transition-colors">Home</Link>
-          <Link to="/models" className="hover:text-cyan-400 transition-colors">Models</Link>
-          <Link to="/compare" className="hover:text-cyan-400 transition-colors">Compare</Link>
-          <Link to="/contact" className="hover:text-cyan-400 transition-colors">Contact</Link>
+    <footer className="bg-[#f0f7ff] border-t border-blue-100 py-6 mt-auto">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-row justify-between items-start mb-6">
+          
+          {/* Left Side - Simplified Pages Column */}
+          <div className="flex flex-col space-y-1">
+            <Link to="/" className="text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest">HOME</Link>
+            <Link to="/contact" className="text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest">CONTACT</Link>
+          </div>
+
+          {/* Right Side - Contact Column */}
+          <div className="flex flex-col space-y-1 text-right">
+            <a href="tel:+919597794387" className="text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors">+91 95977 94387</a>
+            <a href="mailto:ponsrienterprises@gmail.com" className="text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors px-1">ponsrienterprises@gmail.com</a>
+          </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-x-6 gap-y-2 text-xs font-bold text-slate-500">
-          <a href="tel:+919597794387" className="hover:text-cyan-400 transition-colors flex items-center gap-2">
-            <span className="text-cyan-500/50">📱</span> +91 95977 94387
-          </a>
-          <a href="mailto:ponsrienterprises@gmail.com" className="hover:text-cyan-400 transition-colors flex items-center gap-2">
-            <span className="text-cyan-500/50">✉️</span> ponsrienterprises@gmail.com
-          </a>
-          <span className="hidden md:inline text-slate-800">|</span>
-          <span className="text-[10px] text-slate-600">&copy; {new Date().getFullYear()} Ponsri Enterprises</span>
+        <div className="border-t border-blue-100 pt-4 flex flex-col md:flex-row justify-between items-center gap-2">
+          <p className="text-[10px] text-slate-500 font-bold tracking-widest uppercase">&copy; {new Date().getFullYear()} Ponsri Enterprises</p>
+          <p className="text-[10px] text-blue-600/60 font-black tracking-widest uppercase">Designed by MURUGAVEL V</p>
         </div>
-
       </div>
     </footer>
   );
