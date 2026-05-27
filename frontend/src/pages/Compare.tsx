@@ -104,7 +104,7 @@ export default function Compare() {
                   )}
                 </div>
                 <div className="font-semibold mb-1 text-gray-900 line-clamp-2 leading-snug">{product.name}</div>
-                <div className="text-sm font-bold text-emerald-600 mt-auto pt-2">₹{product.price?.toLocaleString()}</div>
+                <div className="text-sm font-bold text-emerald-600 mt-auto pt-2">₹{product.price ? Number(product.price).toLocaleString() : 'N/A'}</div>
                 <div className="text-xs text-slate-500 mt-1">{product.technologyType}</div>
               </button>
             ))}
@@ -145,19 +145,18 @@ export default function Compare() {
               </div>
             </div>
 
-            <div className="overflow-x-auto border border-slate-200 rounded-xl shadow-sm mb-12 relative w-full" style={{ maxWidth: "100vw" }}>
-              <div className="min-w-max md:min-w-full inline-block align-middle">
-                <table className="w-full text-left bg-white divide-y divide-slate-200 table-fixed">
-                  <thead>
-                    <tr>
-                      <th className="px-6 py-5 font-bold text-slate-700 tracking-wider w-40 md:w-1/4">Feature</th>
-                      {selectedProducts.map((product) => (
-                        <th key={product.id} className="px-6 py-5 font-bold text-slate-800 text-lg w-64 md:w-1/4">
-                          <div className="line-clamp-2">{product.name}</div>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
+            <div className="overflow-x-auto border border-slate-200 rounded-xl shadow-sm mb-12 relative w-full">
+              <table className="w-full text-center bg-white divide-y divide-slate-200 min-w-max">
+                <thead>
+                  <tr>
+                    <th className="px-6 py-5 font-bold text-slate-700 tracking-wider w-40 md:w-1/4">Feature</th>
+                    {selectedProducts.map((product) => (
+                      <th key={product.id} className="px-6 py-5 font-bold text-slate-800 text-lg w-64 md:w-1/4 text-center">
+                        <div className="line-clamp-2">{product.name}</div>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
                   <tbody className="divide-y divide-slate-200">
                     <tr className="border-t">
                       <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Image</td>
@@ -167,10 +166,10 @@ export default function Compare() {
                             <img
                               src={product.imageUrl.startsWith('http') ? product.imageUrl : `${API_URL}${product.imageUrl}`}
                               alt={product.name}
-                              className="w-32 h-32 object-contain rounded"
+                              className="w-32 h-32 object-contain rounded mx-auto"
                             />
                           ) : (
-                            <div className="w-32 h-32 bg-gray-50 border border-slate-100 rounded flex items-center justify-center text-slate-400 text-sm">
+                            <div className="w-32 h-32 bg-gray-50 border border-slate-100 rounded flex items-center justify-center text-slate-400 text-sm mx-auto">
                               No Image
                             </div>
                           )}
@@ -182,7 +181,7 @@ export default function Compare() {
                       <td className="px-6 py-4 font-semibold bg-gray-50/50 text-slate-600">Price</td>
                       {selectedProducts.map((product) => (
                         <td key={product.id} className="px-6 py-4 text-emerald-600 font-bold text-lg">
-                          ₹{product.price?.toLocaleString()}
+                          ₹{product.price ? Number(product.price).toLocaleString() : 'N/A'}
                         </td>
                       ))}
                     </tr>
@@ -257,8 +256,7 @@ export default function Compare() {
                       ))}
                     </tr>
                   </tbody>
-                </table>
-              </div>
+              </table>
             </div>
           </>
         )}

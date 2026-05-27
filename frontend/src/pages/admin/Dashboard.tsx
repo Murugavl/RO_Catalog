@@ -194,7 +194,7 @@ export default function AdminDashboard() {
                       <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Thumbnail</th>
                       <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Name</th>
                       <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Price</th>
-                      <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                      <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right sticky right-0 bg-slate-50 z-10 shadow-[-4px_0_10px_-3px_rgba(0,0,0,0.05)]">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
@@ -217,18 +217,18 @@ export default function AdminDashboard() {
                           <div className="font-bold text-slate-800">{product.name}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="font-bold text-emerald-600">₹{product.price?.toLocaleString()}</span>
+                          <span className="font-bold text-emerald-600">₹{product.price ? Number(product.price).toLocaleString() : '0'}</span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right">
+                        <td className="px-6 py-4 whitespace-nowrap text-right sticky right-0 bg-white/95 backdrop-blur-sm z-10 shadow-[-4px_0_10px_-3px_rgba(0,0,0,0.05)]">
                           <button
                             onClick={() => handleEditProduct(product)}
-                            className="text-blue-500 hover:text-blue-700 font-bold bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition mr-2"
+                            className="text-white bg-blue-600 hover:bg-blue-700 font-bold px-4 py-2 rounded-lg transition shadow-md mr-2"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteProduct(product.id)}
-                            className="text-red-500 hover:text-red-700 font-bold bg-red-50 hover:bg-red-100 px-4 py-2 rounded-lg transition"
+                            className="text-white bg-red-600 hover:bg-red-700 font-bold px-4 py-2 rounded-lg transition shadow-md"
                           >
                             Delete
                           </button>

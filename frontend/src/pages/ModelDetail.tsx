@@ -42,7 +42,14 @@ export default function ModelDetail() {
 
   const handleWhatsApp = () => {
     if (!product) return;
-    const message = encodeURIComponent(`வணக்கம் நான் ${product.name} water purifier-ஐ வாங்க விரும்புகிறேன். இதைப் பற்றிய கூடுதல் விவரங்களைத் தர முடியுமா?`);
+    
+    // Ensure absolute image URL for WhatsApp preview
+    let fullImageLink = selectedImage;
+    if (selectedImage && selectedImage.startsWith('/')) {
+      fullImageLink = `${window.location.origin}${selectedImage}`;
+    }
+
+    const message = encodeURIComponent(fullImageLink);
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${message}`, '_blank');
   };
 
